@@ -1,17 +1,42 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>"> {% block stylesheets %}{% endblock %}
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
-</html>
+		{% block javascripts %}
+			<script src="https://cdn.tailwindcss.com"></script>
+			{% block importmap %}
+				{{ importmap('app') }}
+			{% endblock %}
+		{% endblock %}
+	</head>
+	<body class="flex flex-col min-h-screen stretch">
+		<header class="bg-gray-800 text-white p-4 w-full">
+			<nav class="flex gap-8 justify-start w-3/4 mx-auto">
+           <a href="{{ path('app_home') }}">
+                <img src="https://picsum.photos/200" alt="Bank Logo" class="h-8 w-8">
+            </a>
+            <a href="{{ path('app_home') }}">Accueil</a>
+            <a href="">A propos</a>
+            <a href="">Contact</a>
+            <a href="">Mon espace personnel</a>
+
+
+			</nav>
+		</header>
+
+		<main class="container mx-auto px-8 py-16"> {% block body %}{% endblock %}
+			</main>
+
+			<footer class="text-center mt-auto">
+				&copy;
+				{{ 'now'|date('Y') }}
+				- BankApp 
+			</footer>
+		</body>
+	</html>
