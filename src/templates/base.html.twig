@@ -6,7 +6,8 @@
 			{% block title %}Welcome!
 			{% endblock %}
 		</title>
-		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>"> {% block stylesheets %}{% endblock %}
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+		{% block stylesheets %}{% endblock %}
 
 		{% block javascripts %}
 			<script src="https://cdn.tailwindcss.com"></script>
@@ -15,31 +16,59 @@
 			{% endblock %}
 		{% endblock %}
 	</head>
-	<body class="flex flex-col min-h-screen stretch">
-		<header class="bg-gray-800 text-white p-4 w-full">
+	<body class="flex flex-col min-h-screen stretch bg-[#F3F4F6] text-[#374151]">
+		<header class="bg-[#00897B] text-white p-4 w-full">
 			<nav class="flex gap-8 justify-start w-3/4 mx-auto">
            		<a href="{{ path('app_home') }}">
-                	<img src="https://picsum.photos/200" alt="Bank Logo" class="h-8 w-8">
+                	<img src="https://placehold.co/10" alt="Bank Logo" class="h-8 w-8">
             	</a>
-            	<a href="{{ path('app_home') }}">Accueil</a>
-            	<a href="{{ path('app_about') }}">A propos</a>
-            	<a href="{{ path('app_contact') }}">Contact</a>
+            	<a href="{{ path('app_home') }}" class="hover:text-[#D1FAE5]">Accueil</a>
+            	<a href="{{ path('app_about') }}" class="hover:text-[#D1FAE5]">A propos</a>
+            	<a href="{{ path('app_contact') }}" class="hover:text-[#D1FAE5]">Contact</a>
 
 				{% if app.user %}
-            		<a href="{{ path('app_accounts') }}">Mon espace personnel</a>
+            		<a href="{{ path('app_accounts') }}" class="hover:text-[#D1FAE5]">Mon espace personnel</a>
 				{% else %}
-					<a href="{{ path('app_login') }}">Connexion</a>
+					<a href="{{ path('app_login') }}" class="hover:text-[#D1FAE5]">Connexion</a>
 				{% endif %}
 			</nav>
 		</header>
 
-		<main class="container mx-auto px-8 py-16"> {% block body %}{% endblock %}
+		<main class="container mx-auto px-8 py-16">
+			{% block body %}{% endblock %}
 		</main>
 
-		<footer class="text-center mt-auto">
-			&copy;
-			{{ 'now'|date('Y') }}
-			- BankApp 
+		<footer class="text-center mt-auto bg-[#E5E7EB] py-6">
+			<div class="container mx-auto">
+				<div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-[#374151]">
+				<section>
+					<p class="font-bold mb-2">Offres Bancaires</p>
+					<ul class="space-y-1">
+						<li><a href="/" class="text-[#00897B] hover:underline">Cartes bancaires</a></li>
+						<li><a href="/" class="text-[#00897B] hover:underline">Placements</a></li>
+						<li><a href="/" class="text-[#00897B] hover:underline">Crédits</a></li>
+						<li><a href="/" class="text-[#00897B] hover:underline">Assurances</a></li>
+					</ul>
+				</section>
+				<section>
+					<p class="font-bold mb-2">Ouvrir un compte</p>
+					<ul class="space-y-1">
+						<li><a href="/" class="text-[#00897B] hover:underline">Ouvrir un compte en ligne</a></li>
+						<li><a href="/" class="text-[#00897B] hover:underline">Offre jeune</a></li>
+					</ul>
+				</section>
+				<section>
+					<p class="font-bold mb-2">Protections</p>
+					<ul class="space-y-1">
+						<li><a href="/" class="text-[#00897B] hover:underline">Assurances auto</a></li>
+						<li><a href="/" class="text-[#00897B] hover:underline">Assurances habitation</a></li>
+					</ul>
+				</section>
+				<section>
+					<p>&copy; {{ 'now'|date('Y') }} - BankApp</p>
+				</section>
+				</div>
+			</div>
 		</footer>
 	</body>
 </html>
