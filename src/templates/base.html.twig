@@ -24,7 +24,12 @@
             	<a href="{{ path('app_home') }}">Accueil</a>
             	<a href="{{ path('app_about') }}">A propos</a>
             	<a href="{{ path('app_contact') }}">Contact</a>
-            	<a href="{{ path('app_accounts') }}">Mon espace personnel</a>
+
+				{% if app.user %}
+            		<a href="{{ path('app_accounts') }}">Mon espace personnel</a>
+				{% else %}
+					<a href="{{ path('app_login') }}">Connexion</a>
+				{% endif %}
 			</nav>
 		</header>
 
