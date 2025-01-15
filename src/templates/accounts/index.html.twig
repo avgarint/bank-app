@@ -1,11 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Clients - Bank Admin{% endblock %}
+{% block title %}Clients-bank admin{% endblock %}
 
 {% block body %}
-    <div>
+<link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+<div class="example-wrapper">
+    <p class="text-2xl font-bold text-black-700">Accounts</p>
+    <div class="scroll-container">
         {% for account in accounts %}
-            <div class="p-4 bg-gray-100 rounded-lg shadow-md mb-4">
+            <div class="client-card">
                 <p class="text-lg font-semibold text-gray-700">
                     ID: <span class="text-blue-500">{{ account.id }}</span>
                 </p>
@@ -20,6 +24,6 @@
                 </p>
             </div>
         {% endfor %}
-        <a href="{{ path('app_accounts_new') }}" class="text-blue-500">Ajouter un compte</a>
     </div>
+</div>
 {% endblock %}
