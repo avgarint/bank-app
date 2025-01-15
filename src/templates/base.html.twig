@@ -18,25 +18,23 @@
 	<body class="flex flex-col min-h-screen stretch">
 		<header class="bg-gray-800 text-white p-4 w-full">
 			<nav class="flex gap-8 justify-start w-3/4 mx-auto">
-           <a href="{{ path('app_home') }}">
-                <img src="https://picsum.photos/200" alt="Bank Logo" class="h-8 w-8">
-            </a>
-            <a href="{{ path('app_home') }}">Accueil</a>
-            <a href="">A propos</a>
-            <a href="">Contact</a>
-            <a href="">Mon espace personnel</a>
-
-
+           		<a href="{{ path('app_home') }}">
+                	<img src="https://picsum.photos/200" alt="Bank Logo" class="h-8 w-8">
+            	</a>
+            	<a href="{{ path('app_home') }}">Accueil</a>
+            	<a href="">A propos</a>
+            	<a href="">Contact</a>
+            	<a href="{{ path('app_accounts') }}">Mon espace personnel</a>
 			</nav>
 		</header>
 
 		<main class="container mx-auto px-8 py-16"> {% block body %}{% endblock %}
-			</main>
+		</main>
 
-			<footer class="text-center mt-auto">
-				&copy;
-				{{ 'now'|date('Y') }}
-				- BankApp 
-			</footer>
-		</body>
-	</html>
+		<footer class="text-center mt-auto">
+			&copy;
+			{{ 'now'|date('Y') }}
+			- BankApp 
+		</footer>
+	</body>
+</html>
