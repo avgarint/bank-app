@@ -9,11 +9,19 @@
 
 <div class="example-wrapper">
     {% for account in accounts %}
-        <div>
-            <p>ID: {{ account.id }}</p>
-            <p>Account Type: {{ account.accountType }}</p>
-            <p>Balance: {{ account.balance }}</p>
-            <p>Account Number: {{ account.accountNumber }}</p>
+        <div  class="p-4 bg-gray-100 rounded-lg shadow-md">
+            <p class="text-lg font-semibold text-gray-700">
+                ID: <span class="text-blue-500">{{ account.id }}</span>
+            </p>
+            <p class="text-lg font-semibold text-gray-700">
+                Account Type: <span class="text-blue-500">{{ account.accountType }}</span>
+            </p>
+            <p class="text-lg font-semibold text-gray-700">
+                Balance: <span class="text-blue-500">{{ account.balance }}</span>
+            </p>
+            <p class="text-lg font-semibold text-gray-700">
+                Account Number: <span class="text-blue-500">{{ account.accountNumber }}</span>
+            </p>
         </div>
     {% endfor %}
 </div>
