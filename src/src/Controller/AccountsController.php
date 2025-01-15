@@ -28,7 +28,7 @@ final class AccountsController extends AbstractController
     {
         $account = new Account();
         $account->setAccountType('Savings');
-        $account->setBalance(1000);
+        $account->setBalance(0);
         $account->setAccountNumber('1234567890');
 
         $em->persist($account);
