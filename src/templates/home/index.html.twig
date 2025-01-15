@@ -1,14 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Accueil - Bank{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div>
+        <section class="bg-gray-100 text-gray-800">
+            <div class="py-16 px-8 text-center">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Reposez-vous avec votre Bank</h1>
+                <p class="text-lg mb-6">Découvrez une nouvelle façon de gérer vos finances, où confort et efficacité se rejoignent.</p>
+                <ul class="list-none mb-6 space-y-2">
+                <li class="text-lg flex items-center justify-center space-x-2">
+                    <span class="text-green-600">✔</span>
+                    <span>Gestion rapide et intuitive</span>
+                </li>
+                <li class="text-lg flex items-center justify-center space-x-2">
+                    <span class="text-green-600">✔</span>
+                    <span>Offres adaptées à vos besoins</span>
+                </li>
+                <li class="text-lg flex items-center justify-center space-x-2">
+                    <span class="text-green-600">✔</span>
+                    <span>Service client disponible 24/7</span>
+                </li>
+                </ul>
+                <div class="flex justify-center gap-4">
+                    <a class="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition">Explorez nos services</a>
+                    <a class="border border-teal-600 text-teal-600 py-2 px-6 rounded-md shadow-md hover:bg-teal-600 hover:text-white transition" href="{{ path('app_contact') }}" >Contactez-nous</a>
+                </div>
+            </div>
+        </section>
 
-<div class="example-wrapper">
-    bjr
-</div>
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-8 p-8 bg-gray-100 text-gray-800">
+            <article class="text-center space-y-4">
+                <img class="w-24 h-24 mx-auto" src="https://placehold.co/10" alt="">
+                <p class="text-xl font-semibold">Gérez vos comptes</p>
+                <p class="text-gray-600">Un aperçu complet et intuitif de tous vos comptes en temps réel.</p>
+            </article>
+            <article class="text-center space-y-4">
+                <img class="w-24 h-24 mx-auto" src="https://placehold.co/10" alt="">
+                <p class="text-xl font-semibold">Crédits simplifiés</p>
+                <p class="text-gray-600">Des solutions adaptées à vos besoins, sans complications inutiles.</p>
+            </article>
+            <article class="text-center space-y-4">
+                <img class="w-24 h-24 mx-auto" src="https://placehold.co/10" alt="">
+                <p class="text-xl font-semibold">Épargne optimisée</p>
+                <p class="text-gray-600">Planifiez vos projets futurs avec nos options d'épargne intelligentes.</p>
+            </article>
+        </section>
+    </div>
 {% endblock %}

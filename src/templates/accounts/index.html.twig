@@ -1,28 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AccountsController!{% endblock %}
+{% block title %}Clients - Bank Admin{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-</style>
-
-<div class="example-wrapper">
-    {% for account in accounts %}
-        <div  class="p-4 bg-gray-100 rounded-lg shadow-md">
-            <p class="text-lg font-semibold text-gray-700">
-                ID: <span class="text-blue-500">{{ account.id }}</span>
-            </p>
-            <p class="text-lg font-semibold text-gray-700">
-                Account Type: <span class="text-blue-500">{{ account.accountType }}</span>
-            </p>
-            <p class="text-lg font-semibold text-gray-700">
-                Balance: <span class="text-blue-500">{{ account.balance }}</span>
-            </p>
-            <p class="text-lg font-semibold text-gray-700">
-                Account Number: <span class="text-blue-500">{{ account.accountNumber }}</span>
-            </p>
-        </div>
-    {% endfor %}
-</div>
+    <div>
+        {% for account in accounts %}
+            <div class="p-4 bg-gray-100 rounded-lg shadow-md mb-4">
+                <p class="text-lg font-semibold text-gray-700">
+                    ID: <span class="text-blue-500">{{ account.id }}</span>
+                </p>
+                <p class="text-lg font-semibold text-gray-700">
+                    Type: <span class="text-blue-500">{{ account.accountType }}</span>
+                </p>
+                <p class="text-lg font-semibold text-gray-700">
+                    Montant: <span class="text-blue-500">{{ account.balance }}</span>
+                </p>
+                <p class="text-lg font-semibold text-gray-700">
+                    Nombre: <span class="text-blue-500">{{ account.accountNumber }}</span>
+                </p>
+            </div>
+        {% endfor %}
+        <a href="{{ path('app_accounts_new') }}" class="text-blue-500">Ajouter un compte</a>
+    </div>
 {% endblock %}

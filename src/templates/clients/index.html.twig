@@ -3,24 +3,24 @@
 {% block title %}Hello ClientsController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-</style>
-
-<div class="example-wrapper">
-    <p class="text-2xl" font-bold text-black-700>Clients</p>
-    {% for client in clients %}
-        <div class="p-4 bg-gray-100 rounded-lg shadow-md">
-            <p class="text-lg font-semibold text-gray-700">
-                ID: <span class="text-blue-500">{{ client.id }}</span>
-            </p>
-            <p class="text-lg font-semibold text-gray-700">
-                E-mail: <span class="text-blue-500">{{ client.email }}</span>
-            </p>
-            <p class="text-lg font-semibold text-gray-700">
-                Password: <span class="text-red-500">{{ client.password }}</span>
-            </p>
-        </div>
-    {% endfor %}
+<link rel="stylesheet" href="{{ asset('css/app.css') }}">
+<div class="example-wrapper" style="margin-top: 50px;">
+    <p class="text-2xl font-bold text-black-700">Clients</p>
+    <div class="scroll-container">
+        {% for client in clients %}
+            <div class="client-card">
+                <p class="text-lg font-semibold text-gray-700">
+                    ID: <span class="text-blue-500">{{ client.id }}</span>
+                </p>
+                <p class="text-lg font-semibold text-gray-700">
+                    E-mail: <span class="text-blue-500">{{ client.email }}</span>
+                </p>
+                <p class="text-lg font-semibold text-gray-700">
+                    Password: <span class="text-red-500">{{ client.password }}</span>
+                </p>
+                <a href="{{ path('app_clients_remove', {id: client.id}) }}" class="text-red-500">Supprimer</a>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

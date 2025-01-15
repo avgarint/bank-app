@@ -8,6 +8,7 @@ use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Doctrine\ORM\EntityManagerInterface;
 
 final class ClientsController extends AbstractController
 {
@@ -19,6 +20,15 @@ final class ClientsController extends AbstractController
         return $this->render('clients/index.html.twig', [
             'clients' => $clients,
         ]);
+    }
+
+    #[Route('/clients/{id}/remove', name: 'app_clients_remove')]
+    public function remove(User $user, EntityManagerInterface $em): Response
+    {
+        $em->remove($user);
+        $em->flush();
+
+        return $this->redirectToRoute('app_clients');
     }
 
     #[Route('/clients/{id}', name: 'app_clients_details')]
