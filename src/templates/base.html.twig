@@ -3,8 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>
-			{% block title %}Welcome!
-			{% endblock %}
+			{% block title %}Bank{% endblock %}
 		</title>
 		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
 		{% block stylesheets %}{% endblock %}
@@ -34,9 +33,7 @@
 			</nav>
 		</header>
 
-		<main class="container mx-auto px-8 py-16">
-			{% block body %}{% endblock %}
-		</main>
+		{% block body %}{% endblock %}
 
 		<footer class="text-center mt-auto bg-[#E5E7EB] py-6">
 			<div class="container mx-auto">
