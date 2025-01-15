@@ -33,37 +33,46 @@
 			</nav>
 		</header>
 
-		{% block body %}{% endblock %}
+		<main class="m-4 mx-auto w-[60%] text-[18px] leading-[1.5] font-sans">
+			{% block body %}{% endblock %}
+		</main>
 
 		<footer class="text-center mt-auto bg-[#E5E7EB] py-6">
 			<div class="container mx-auto">
 				<div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-[#374151]">
-				<section>
-					<p class="font-bold mb-2">Offres Bancaires</p>
-					<ul class="space-y-1">
-						<li><a href="/" class="text-[#00897B] hover:underline">Cartes bancaires</a></li>
-						<li><a href="/" class="text-[#00897B] hover:underline">Placements</a></li>
-						<li><a href="/" class="text-[#00897B] hover:underline">Crédits</a></li>
-						<li><a href="/" class="text-[#00897B] hover:underline">Assurances</a></li>
-					</ul>
-				</section>
-				<section>
-					<p class="font-bold mb-2">Ouvrir un compte</p>
-					<ul class="space-y-1">
-						<li><a href="/" class="text-[#00897B] hover:underline">Ouvrir un compte en ligne</a></li>
-						<li><a href="/" class="text-[#00897B] hover:underline">Offre jeune</a></li>
-					</ul>
-				</section>
-				<section>
-					<p class="font-bold mb-2">Protections</p>
-					<ul class="space-y-1">
-						<li><a href="/" class="text-[#00897B] hover:underline">Assurances auto</a></li>
-						<li><a href="/" class="text-[#00897B] hover:underline">Assurances habitation</a></li>
-					</ul>
-				</section>
-				<section>
+					<section>
+						<p class="font-bold mb-2">Offres Bancaires</p>
+						<ul class="space-y-1">
+							<li><a href="/" class="text-[#00897B] hover:underline">Cartes bancaires</a></li>
+							<li><a href="/" class="text-[#00897B] hover:underline">Placements</a></li>
+							<li><a href="/" class="text-[#00897B] hover:underline">Crédits</a></li>
+							<li><a href="/" class="text-[#00897B] hover:underline">Assurances</a></li>
+						</ul>
+					</section>
+					<section>
+						<p class="font-bold mb-2">Ouvrir un compte</p>
+						<ul class="space-y-1">
+							<li><a href="/" class="text-[#00897B] hover:underline">Ouvrir un compte en ligne</a></li>
+							<li><a href="/" class="text-[#00897B] hover:underline">Offre jeune</a></li>
+						</ul>
+					</section>
+					<section>
+						<p class="font-bold mb-2">Protections</p>
+						<ul class="space-y-1">
+							<li><a href="/" class="text-[#00897B] hover:underline">Assurances auto</a></li>
+							<li><a href="/" class="text-[#00897B] hover:underline">Assurances habitation</a></li>
+						</ul>
+					</section>
+					<section>
+						<p class="font-bold mb-2">Conseils</p>
+						<ul class="space-y-1">
+							<li><a href="/" class="text-[#00897B] hover:underline">Serices</a></li>
+							<li><a href="/" class="text-[#00897B] hover:underline">Aléas de la vie</a></li>
+						</ul>
+					</section>
+				</div>
+				<div>
 					<p>&copy; {{ 'now'|date('Y') }} - BankApp</p>
-				</section>
 				</div>
 			</div>
 		</footer>
