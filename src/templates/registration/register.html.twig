@@ -3,17 +3,39 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+<div class=" bg-gray-100 flex items-center justify-center">
+    <div class="bg-white p-8 rounded shadow-lg w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-4 text-center">Register</h1>
 
-    {{ form_errors(registrationForm) }}
+        {% if form_errors(registrationForm) %}
+            <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
+                {{ form_errors(registrationForm) }}
+            </div>
+        {% endif %}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+        {{ form_start(registrationForm, { attr: { class: 'space-y-6' } }) }}
+            <div>
+                {{ form_label(registrationForm.email, null, { label_attr: { class: 'block text-sm font-medium text-gray-700' } }) }}
+                {{ form_widget(registrationForm.email, { attr: { class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
+                {{ form_errors(registrationForm.email) }}
+            </div>
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+            <div>
+                {{ form_label(registrationForm.plainPassword, 'Password', { label_attr: { class: 'block text-sm font-medium text-gray-700' } }) }}
+                {{ form_widget(registrationForm.plainPassword, { attr: { class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm' } }) }}
+                {{ form_errors(registrationForm.plainPassword) }}
+            </div>
+
+            <div class="flex items-center">
+                {{ form_widget(registrationForm.agreeTerms, { attr: { class: 'h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500' } }) }}
+                {{ form_label(registrationForm.agreeTerms, null, { label_attr: { class: 'ml-2 text-sm text-gray-700' } }) }}
+                {{ form_errors(registrationForm.agreeTerms) }}
+            </div>
+
+           <button type="submit" class="w-full text-white py-1 px-4 rounded-md shadow hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2" style="background-color: #00897B;">
+                Register
+            </button>
+        {{ form_end(registrationForm) }}
+    </div>
+</div>
 {% endblock %}
