@@ -37,7 +37,7 @@ final class AccountsController extends AbstractController
         return $this->redirectToRoute('app_accounts');
     }
 
-    #[Route('/accounts/{id}/edit', name: 'app_accounts_edit')]
+    #[Route('/accounts/{id}/remove', name: 'app_accounts_remove')]
     public function remove(Account $account, EntityManagerInterface $em): Response
     {
         $em->remove($account);
