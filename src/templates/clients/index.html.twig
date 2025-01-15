@@ -8,12 +8,19 @@
 </style>
 
 <div class="example-wrapper">
+    <p class="text-2xl" font-bold text-black-700>Clients</p>
     {% for client in clients %}
-        <div>
-            <p>ID: {{ client.id }}</p>
-            <p>E-mail: {{ client.email }}</p>
-            <p>Password: {{ client.password }}</p>
-        <div>
+        <div class="p-4 bg-gray-100 rounded-lg shadow-md">
+            <p class="text-lg font-semibold text-gray-700">
+                ID: <span class="text-blue-500">{{ client.id }}</span>
+            </p>
+            <p class="text-lg font-semibold text-gray-700">
+                E-mail: <span class="text-blue-500">{{ client.email }}</span>
+            </p>
+            <p class="text-lg font-semibold text-gray-700">
+                Password: <span class="text-red-500">{{ client.password }}</span>
+            </p>
+        </div>
     {% endfor %}
 </div>
 {% endblock %}
