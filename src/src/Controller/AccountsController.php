@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Account;
+use App\Entity\Transfer;
+use App\Form\TransferType;
 use App\Repository\AccountRepository;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -53,4 +55,41 @@ final class AccountsController extends AbstractController
             'account' => $account,
         ]);
     }
+
+    // #[Route('/transfer/new', name: 'transfer_create')]
+    // public function createTransfer(EntityManagerInterface $em, Request $request): Response
+    // {
+    //     $transfer = new Transfer;
+
+    //     $form = $this->createForm(TransferType::class, $transfer);
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $em->persist($transfer);
+    //         $em->flush();
+
+    //         // Récupérer les données du formulaire
+    //         $data = $form->getData();
+
+    //         // Trouver le compte spécifique (par exemple, par ID)
+    //         $accountId = $data->getAccountId(); // Assurez-vous que cette méthode existe dans votre entité Transfer
+    //         $account = $em->getRepository(Account::class)->find($accountId);
+
+    //         if ($account) {
+    //             // Modifier les données du compte
+    //             $account->setBalance($account->getBalance() + $data->getAmount()); // Exemple de modification
+
+    //             // Sauvegarder les modifications
+    //             $em->persist($account);
+    //             $em->flush();
+    //         }
+
+    //         return $this->redirectToRoute('app_accounts');
+    //     }
+
+    //     return $this->render('accounts/form.html.twig', [
+    //         'formulaire' => $form,
+    //         'action' => 'Ajouter',
+    //     ]);
+    // }
 }
