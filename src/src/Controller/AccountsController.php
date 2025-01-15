@@ -46,7 +46,7 @@ final class AccountsController extends AbstractController
         return $this->redirectToRoute('app_accounts');
     }
 
-    #[Route('/accounts{id}', name: 'app_accounts_details')]
+    #[Route('/accounts/{id}', name: 'app_accounts_details')]
     public function details(Account $account): Response
     {
         return $this->render('accounts/details.html.twig', [
