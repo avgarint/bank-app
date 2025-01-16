@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Account;
+use App\Entity\Deposit;
 use App\Entity\Transfer;
 use App\Form\TransferType;
+use App\Form\DepositType;
 use App\Repository\AccountRepository;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
+
 
 final class AccountsController extends AbstractController
 {
@@ -24,6 +27,7 @@ final class AccountsController extends AbstractController
             'accounts' => $accounts,
         ]);
     }
+
 
     #[Route('/accounts/new', name: 'app_accounts_new')]
     public function new(EntityManagerInterface $em, Request $request): Response
@@ -39,6 +43,7 @@ final class AccountsController extends AbstractController
 
         return $this->redirectToRoute('app_accounts');
     }
+
 
     #[Route('/accounts/{id}/remove', name: 'app_accounts_remove')]
     public function remove(Account $account, EntityManagerInterface $em): Response
@@ -56,6 +61,7 @@ final class AccountsController extends AbstractController
             'account' => $account,
         ]);
     }
+
 
     #[Route('/accounts/{id}/transfer', name: 'transfer_create')]
     public function createTransfer(Account $account, EntityManagerInterface $em, Request $request): Response
@@ -115,6 +121,49 @@ final class AccountsController extends AbstractController
         return $this->render('accounts/form.html.twig', [
             'formulaire' => $form->createView(),
             'action' => 'Ajouter',
+        ]);
+    }
+
+
+    #[Route('/accounts/{id}/deposit', name: 'deposit_create')]
+    public function createDeposit(Account $account, EntityManagerInterface $em, Request $request): Response
+    {
+        $deposit = new Deposit();
+        $deposit->setNoAccountInvolve($account->getAccountNumber());
+
+        // Création du formulaire
+        $form = $this->createForm(DepositType::class, $deposit, [
+            'account_number' => $account->getAccountNumber(),
+        ]);
+
+        $form->handleRequest($request);
+
+        // Traitement si le formulaire est soumis et valide
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Récupérer les données du formulaire
+            $deposit = $form->getData();
+
+            // Logique de mise à jour du compte
+            $account = $em->getRepository(Account::class)->find($account->getId());
+            $amount = $deposit->getAmountDeposit();
+
+            // Mise à jour du solde
+            $account->setBalance($account->getBalance() + $amount);
+
+            // Sauvegarder le dépôt
+            $em->persist($deposit);
+            $em->persist($account);
+            $em->flush();
+
+            // Redirection avec message de succès
+            $this->addFlash('success', 'Le dépôt a été effectué avec succès.');
+            return $this->redirectToRoute('app_accounts');
+        }
+
+        // Afficher le formulaire
+        return $this->render('accounts/form.html.twig', [
+            'formulaire' => $form->createView(),
+            'action' => 'Déposer',
         ]);
     }
 }
