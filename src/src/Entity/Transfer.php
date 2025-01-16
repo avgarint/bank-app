@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\TransferRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TransferRepository::class)]
 class Transfer
@@ -20,6 +21,7 @@ class Transfer
     private ?string $no_account_receiver = null;
 
     #[ORM\Column]
+    #[Assert\Positive(message: 'Le montant doit être un nombre positif.')] // Validation ajoutée ici
     private ?int $amount_transfer = null;
 
     public function getId(): ?int

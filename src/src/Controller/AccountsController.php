@@ -29,9 +29,10 @@ final class AccountsController extends AbstractController
     public function new(EntityManagerInterface $em, Request $request): Response
     {
         $account = new Account();
-        $account->setAccountType('Savings');
+        $account->setAccountType('EPARGNE');
         $account->setBalance(0);
-        $account->setAccountNumber('1234567890');
+        $accountNumber = (new \DateTime())->format('dmHis');
+        $account->setAccountNumber($accountNumber);
 
         $em->persist($account);
         $em->flush();
@@ -56,40 +57,64 @@ final class AccountsController extends AbstractController
         ]);
     }
 
-    // #[Route('/transfer/new', name: 'transfer_create')]
-    // public function createTransfer(EntityManagerInterface $em, Request $request): Response
-    // {
-    //     $transfer = new Transfer;
+    #[Route('/accounts/{id}/transfer', name: 'transfer_create')]
+    public function createTransfer(Account $account, EntityManagerInterface $em, Request $request): Response
+    {
+        $transfer = new Transfer();
+        $transfer->setNoAccountEmitter($account->getAccountNumber());
 
-    //     $form = $this->createForm(TransferType::class, $transfer);
-    //     $form->handleRequest($request);
+        // Création du formulaire
+        $form = $this->createForm(TransferType::class, $transfer, [
+            'account_number' => $account->getAccountNumber(),
+        ]);
 
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $em->persist($transfer);
-    //         $em->flush();
+        $form->handleRequest($request);
 
-    //         // Récupérer les données du formulaire
-    //         $data = $form->getData();
+        // Traitement si le formulaire est soumis et valide
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Récupérer les données du formulaire
+            $transfer = $form->getData();
 
-    //         // Trouver le compte spécifique (par exemple, par ID)
-    //         $accountId = $data->getAccountId(); // Assurez-vous que cette méthode existe dans votre entité Transfer
-    //         $account = $em->getRepository(Account::class)->find($accountId);
+            // Logique de mise à jour des comptes
+            $emitterAccount = $account; // Compte émetteur (déjà fourni)
+            $receiverAccountNumber = $transfer->getNoAccountReceiver(); // Numéro du compte récepteur
+            $amount = $transfer->getAmountTransfer();
 
-    //         if ($account) {
-    //             // Modifier les données du compte
-    //             $account->setBalance($account->getBalance() + $data->getAmount()); // Exemple de modification
+            // Trouver le compte récepteur
+            $receiverAccount = $em->getRepository(Account::class)->findOneBy([
+                'account_number' => $receiverAccountNumber,
+            ]);
 
-    //             // Sauvegarder les modifications
-    //             $em->persist($account);
-    //             $em->flush();
-    //         }
+            if (!$receiverAccount) {
+                $this->addFlash('error', 'Le compte récepteur est introuvable.');
+                return $this->redirectToRoute('transfer_create', ['id' => $account->getId()]);
+            }
 
-    //         return $this->redirectToRoute('app_accounts');
-    //     }
+            // Vérifier le solde du compte émetteur
+            if ($emitterAccount->getBalance() < $amount) {
+                $this->addFlash('error', 'Solde insuffisant pour effectuer le transfert.');
+                return $this->redirectToRoute('transfer_create', ['id' => $account->getId()]);
+            }
 
-    //     return $this->render('accounts/form.html.twig', [
-    //         'formulaire' => $form,
-    //         'action' => 'Ajouter',
-    //     ]);
-    // }
+            // Mise à jour des soldes
+            $emitterAccount->setBalance($emitterAccount->getBalance() - $amount);
+            $receiverAccount->setBalance($receiverAccount->getBalance() + $amount);
+
+            // Sauvegarder le transfert
+            $em->persist($transfer);
+            $em->persist($emitterAccount);
+            $em->persist($receiverAccount);
+            $em->flush();
+
+            // Redirection avec message de succès
+            $this->addFlash('success', 'Le transfert a été effectué avec succès.');
+            return $this->redirectToRoute('app_accounts');
+        }
+
+        // Afficher le formulaire
+        return $this->render('accounts/form.html.twig', [
+            'formulaire' => $form->createView(),
+            'action' => 'Ajouter',
+        ]);
+    }
 }

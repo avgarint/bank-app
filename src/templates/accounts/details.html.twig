@@ -1,28 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon espace personnel - Bank Admin{% endblock %}
+{% block title %}Mon espace personnel - Bank Admin
+{% endblock %}
 
 {% block body %}
-    <section class="flex justify-between items-stretch h-full space-x-4">
-        <section class="flex-1 space-y-4 p-4 bg-gray-100 rounded-lg shadow-md">
-            <div class="p-2 bg-white rounded-lg shadow-sm">
-                <p class="text-gray-800 text-sm font-medium">{{ account.accountType }}</p>
-                <p class="text-blue-500 text-4xl">{{ account.balance }} €</p>
-            </div>
-            <div class="p-2 bg-white rounded-lg shadow-sm">
-                <canvas class="w-full h-32"></canvas>
-            </div>
-            <div class="p-2 bg-white rounded-lg shadow-sm">
-                <div class="flex justify-between text-sm text-gray-600">
-                    <p class="font-medium">16/01/2025</p>
-                    <p class="font-semibold text-green-600">+90</p>
-                </div>
-            </div>
-        </section>
-        <section class="w-1/4 flex flex-col space-y-4">
-            <a class="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition" href="/">Virement</a>
-            <a class="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition" href="/">Dépot</a>
-            <a class="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition" href="/">Retrait</a>
-        </section>
-    </section>
+	<section class="flex justify-between items-stretch h-full space-x-4">
+		<section class="flex-1 space-y-4 p-4 bg-gray-100 rounded-lg shadow-md">
+			<div class="p-2 bg-white rounded-lg shadow-sm">
+				<p class="text-gray-800 text-sm font-medium">{{ account.accountType }}</p>
+				<p class="text-blue-500 text-4xl">{{ account.balance }}
+					€</p>
+			</div>
+			<div class="p-2 bg-white rounded-lg shadow-sm">
+				<canvas class="w-full h-32"></canvas>
+			</div>
+			<div class="p-2 bg-white rounded-lg shadow-sm">
+				<div class="flex justify-between text-sm text-gray-600">
+					<p class="font-medium">16/01/2025</p>
+					<p class="font-semibold text-green-600">+90</p>
+				</div>
+			</div>
+		</section>
+		<section class="w-1/4 flex flex-col space-y-4">
+			<a class="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition" href="{{path('transfer_create', {id:account.id})}}">Virement</a>
+			<a class="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition" href="/">Dépot</a>
+			<a class="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition" href="/">Retrait</a>
+		</section>
+	</section>
 {% endblock %}
