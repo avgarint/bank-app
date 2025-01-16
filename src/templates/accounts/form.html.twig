@@ -1,23 +1,24 @@
 {% extends "base.html.twig" %}
 
-{% block title %}{{ action }} un article
+{% block title %}
+	virement - Bank
 {% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
+	{{ parent() }}
 
-    <style>
-        input, textarea {
-            width: 100%;
-            margin-bottom: 10px;
-            border: 1px solid black;
-        }
-    </style>
+	<style>
+		input,
+		textarea {
+			width: 100%;
+			margin-bottom: 10px;
+			border: 1px solid black;
+		}
+	</style>
 {% endblock %}
 
 {% block body %}
-	<h1>{{ action }} un article</h1>
+	<h1>{{ action }}
+		un virement</h1>
 
-    {{ form(formulaire) }}
-
-{% endblock %}
+	{{ form(formulaire) }}{% endblock %}

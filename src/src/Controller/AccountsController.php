@@ -2,18 +2,20 @@
 
 namespace App\Controller;
 
+use App\Entity\Debit;
 use App\Entity\Account;
 use App\Entity\Deposit;
+use App\Form\DebitType;
 use App\Entity\Transfer;
-use App\Form\TransferType;
 use App\Form\DepositType;
-use App\Repository\AccountRepository;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\TransferType;
+use App\Repository\AccountRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 final class AccountsController extends AbstractController
@@ -164,6 +166,54 @@ final class AccountsController extends AbstractController
         return $this->render('accounts/form.html.twig', [
             'formulaire' => $form->createView(),
             'action' => 'Déposer',
+        ]);
+    }
+
+    #[Route('/accounts/{id}/debit', name: 'debit_create')]
+    public function createDebit(Account $account, EntityManagerInterface $em, Request $request): Response
+    {
+        $debit = new Debit();
+        $debit->setNoAccountInvolve($account->getAccountNumber());
+
+        // Création du formulaire
+        $form = $this->createForm(DebitType::class, $debit, [
+            'account_number' => $account->getAccountNumber(),
+        ]);
+
+        $form->handleRequest($request);
+
+        // Traitement si le formulaire est soumis et valide
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Récupérer les données du formulaire
+            $debit = $form->getData();
+
+            // Logique de mise à jour du compte
+            $account = $em->getRepository(Account::class)->find($account->getId());
+            $amount = $debit->getAmountDebit();
+
+            // Vérifier le solde
+            if ($account->getBalance() < $amount) {
+                $this->addFlash('error', 'Solde insuffisant pour effectuer le retrait.');
+                return $this->redirectToRoute('debit_create', ['id' => $account->getId()]);
+            }
+
+            // Mise à jour du solde
+            $account->setBalance($account->getBalance() - $amount);
+
+            // Sauvegarder le retrait
+            $em->persist($debit);
+            $em->persist($account);
+            $em->flush();
+
+            // Redirection avec message de succès
+            $this->addFlash('success', 'Le retrait a été effectué avec succès.');
+            return $this->redirectToRoute('app_accounts');
+        }
+
+        // Afficher le formulaire
+        return $this->render('accounts/form.html.twig', [
+            'formulaire' => $form->createView(),
+            'action' => 'Retirer',
         ]);
     }
 }
