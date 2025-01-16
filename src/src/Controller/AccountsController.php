@@ -7,8 +7,9 @@ use App\Entity\Account;
 use App\Entity\Deposit;
 use App\Form\DebitType;
 use App\Entity\Transfer;
-use App\Form\DepositType;
+use App\Form\AccountType;
 
+use App\Form\DepositType;
 use App\Form\TransferType;
 use App\Repository\AccountRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,12 +21,35 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class AccountsController extends AbstractController
 {
     #[Route('/accounts', name: 'app_accounts')]
-    public function index(AccountRepository $accountRepository): Response
+    public function index(EntityManagerInterface $entityManager, Request $request): Response
     {
-        $accounts = $accountRepository->findAll();
 
-        return $this->render('accounts/index.html.twig', ['accounts' => $accounts]);
+        $accounts = $entityManager->getRepository(Account::class)->findAll();
+
+
+        $account = new Account();
+        $accountNumber = (new \DateTime())->format('dmHis');
+        $account->setNumber($accountNumber);
+
+        $form = $this->createForm(AccountType::class, $account);
+
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($account);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_accounts');
+        }
+
+        return $this->render('accounts/index.html.twig', [
+            'accounts' => $accounts,
+            'form' => $form->createView(),
+        ]);
     }
+
+
 
     #[Route('/accounts/new', name: 'app_accounts_new')]
     public function new(EntityManagerInterface $entityManager, Request $request): Response
