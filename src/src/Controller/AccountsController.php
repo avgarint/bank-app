@@ -65,7 +65,7 @@ final class AccountsController extends AbstractController
 
         // Création du formulaire
         $form = $this->createForm(TransferType::class, $transfer, [
-            'account_number' => $account->getNumber(),
+            'number' => $account->getNumber(),
         ]);
 
         $form->handleRequest($request);
