@@ -11,7 +11,7 @@ console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
 
 //
 
-addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', () => {
   const canvases = document.querySelectorAll('canvas');
   canvases.forEach(canvas => {
     new Chart(canvas, {

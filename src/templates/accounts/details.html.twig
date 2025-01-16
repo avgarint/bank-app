@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon espace personnel - Bank Admin
-{% endblock %}
+{% block title %}Mon espace personnel - Bank{% endblock %}
 
 {% block body %}
 	<section class="flex justify-between items-stretch h-full space-x-4">
@@ -21,9 +20,9 @@
 			</div>
 		</section>
 		<section class="w-1/4 flex flex-col space-y-4">
-			<a class="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition" href="{{path('transfer_create', {id:account.id})}}">Virement</a>
-			<a class="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition" href="{{path('deposit_create', {id:account.id})}}">Dépot</a>
-			<a class="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition" href="{{path('debit_create', {id:account.id})}}">Retrait</a>
+			<a class="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition" href="{{ path('transfer_create', { id: account.id}) }}">Virement</a>
+			<a class="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition" href="{{ path('deposit_create', { id: account.id}) }}">Dépot</a>
+			<a class="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition" href="{{ path('debit_create', { id: account.id }) }}">Retrait</a>
 		</section>
 	</section>
 {% endblock %}
