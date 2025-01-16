@@ -1,24 +1,12 @@
 body {
   background-color: white;
 }
-.example-wrapper {
-  margin: 1em auto;
-  max-width: 800px;
-  width: 95%;
-  font: 18px/1.5 sans-serif;
-}
+
 .scroll-container {
-  height: 400px; /* Hauteur fixe pour permettre le scroll */
+  height: 500px; /* Hauteur fixe pour permettre le scroll */
   overflow-y: scroll; /* Ajout du scroll vertical */
   border: 2px solid #344d59;
   background-color: #f0f4f5;
   padding: 30px;
   border-radius: 8px;
-}
-.client-card {
-  margin-top: 20px;
-  padding: 20px;
-  background-color: #E5E7EB;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }

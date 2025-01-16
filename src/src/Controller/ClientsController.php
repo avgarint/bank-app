@@ -9,9 +9,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class ClientsController extends AbstractController
 {
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/clients', name: 'app_clients')]
     public function index(UserRepository $userRepository): Response
     {
@@ -22,15 +24,17 @@ final class ClientsController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/clients/{id}/remove', name: 'app_clients_remove')]
-    public function remove(User $user, EntityManagerInterface $em): Response
+    public function remove(User $user, EntityManagerInterface $entityManager): Response
     {
-        $em->remove($user);
-        $em->flush();
+        $entityManager->remove($user);
+        $entityManager->flush();
 
         return $this->redirectToRoute('app_clients');
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/clients/{id}', name: 'app_clients_details')]
     public function details(User $user): Response
     {
