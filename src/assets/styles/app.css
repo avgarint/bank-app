@@ -1,12 +1,3 @@
 body {
   background-color: white;
 }
-
-.scroll-container {
-  height: 500px; /* Hauteur fixe pour permettre le scroll */
-  overflow-y: scroll; /* Ajout du scroll vertical */
-  border: 2px solid #344d59;
-  background-color: #f0f4f5;
-  padding: 30px;
-  border-radius: 8px;
-}
