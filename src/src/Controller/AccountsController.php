@@ -30,7 +30,7 @@ final class AccountsController extends AbstractController
 
 
     #[Route('/accounts/new', name: 'app_accounts_new')]
-    public function new(EntityManagerInterface $em, Request $request): Response
+    public function new(EntityManagerInterface $entityManager, Request $request): Response
     {
         $account = new Account();
         $account->setAccountType('EPARGNE');
@@ -38,18 +38,18 @@ final class AccountsController extends AbstractController
         $accountNumber = (new \DateTime())->format('dmHis');
         $account->setAccountNumber($accountNumber);
 
-        $em->persist($account);
-        $em->flush();
+        $entityManager->persist($account);
+        $entityManager->flush();
 
         return $this->redirectToRoute('app_accounts');
     }
 
 
     #[Route('/accounts/{id}/remove', name: 'app_accounts_remove')]
-    public function remove(Account $account, EntityManagerInterface $em): Response
+    public function remove(Account $account, EntityManagerInterface $entityManager): Response
     {
-        $em->remove($account);
-        $em->flush();
+        $entityManager->remove($account);
+        $entityManager->flush();
 
         return $this->redirectToRoute('app_accounts');
     }
@@ -64,7 +64,7 @@ final class AccountsController extends AbstractController
 
 
     #[Route('/accounts/{id}/transfer', name: 'transfer_create')]
-    public function createTransfer(Account $account, EntityManagerInterface $em, Request $request): Response
+    public function createTransfer(Account $account, EntityManagerInterface $entityManager, Request $request): Response
     {
         $transfer = new Transfer();
         $transfer->setNoAccountEmitter($account->getAccountNumber());
@@ -87,7 +87,7 @@ final class AccountsController extends AbstractController
             $amount = $transfer->getAmountTransfer();
 
             // Trouver le compte récepteur
-            $receiverAccount = $em->getRepository(Account::class)->findOneBy([
+            $receiverAccount = $entityManager->getRepository(Account::class)->findOneBy([
                 'account_number' => $receiverAccountNumber,
             ]);
 
@@ -107,10 +107,10 @@ final class AccountsController extends AbstractController
             $receiverAccount->setBalance($receiverAccount->getBalance() + $amount);
 
             // Sauvegarder le transfert
-            $em->persist($transfer);
-            $em->persist($emitterAccount);
-            $em->persist($receiverAccount);
-            $em->flush();
+            $entityManager->persist($transfer);
+            $entityManager->persist($emitterAccount);
+            $entityManager->persist($receiverAccount);
+            $entityManager->flush();
 
             // Redirection avec message de succès
             $this->addFlash('success', 'Le transfert a été effectué avec succès.');
@@ -126,7 +126,7 @@ final class AccountsController extends AbstractController
 
 
     #[Route('/accounts/{id}/deposit', name: 'deposit_create')]
-    public function createDeposit(Account $account, EntityManagerInterface $em, Request $request): Response
+    public function createDeposit(Account $account, EntityManagerInterface $entityManager, Request $request): Response
     {
         $deposit = new Deposit();
         $deposit->setNoAccountInvolve($account->getAccountNumber());
@@ -144,16 +144,16 @@ final class AccountsController extends AbstractController
             $deposit = $form->getData();
 
             // Logique de mise à jour du compte
-            $account = $em->getRepository(Account::class)->find($account->getId());
+            $account = $entityManager->getRepository(Account::class)->find($account->getId());
             $amount = $deposit->getAmountDeposit();
 
             // Mise à jour du solde
             $account->setBalance($account->getBalance() + $amount);
 
             // Sauvegarder le dépôt
-            $em->persist($deposit);
-            $em->persist($account);
-            $em->flush();
+            $entityManager->persist($deposit);
+            $entityManager->persist($account);
+            $entityManager->flush();
 
             // Redirection avec message de succès
             $this->addFlash('success', 'Le dépôt a été effectué avec succès.');

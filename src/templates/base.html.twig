@@ -18,17 +18,19 @@
 	</head>
 	<body class="flex flex-col min-h-screen stretch bg-[#F3F4F6] text-[#374151]">
 		<header class="bg-[#00897B] text-white p-4 w-full">
-			<nav class="flex items-center gap-8 justify-start w-3/4 mx-auto">
-           		<a href="{{ path('app_home') }}">
-            		<img src="https://placehold.co/10" alt="Bank Logo" class="h-8 w-8">
-        		</a>
-        		<a href="{{ path('app_home') }}" class="hover:text-[#D1FAE5]">Accueil</a>
-        		<a href="{{ path('app_about') }}" class="hover:text-[#D1FAE5]">A propos</a>
-				<a href="{{ path('app_contact') }}" class="hover:text-[#D1FAE5]">Contact</a>
+			<nav class="flex items-center justify-between w-3/4 mx-auto">
+				<div class="flex items-center gap-8">
+					<a href="{{ path('app_home') }}" class="title">
+						Bank
+        			</a>
+        			<a href="{{ path('app_home') }}" class="hover:text-[#D1FAE5]">Accueil</a>
+        			<a href="{{ path('app_about') }}" class="hover:text-[#D1FAE5]">A propos</a>
+					<a href="{{ path('app_contact') }}" class="hover:text-[#D1FAE5]">Contact</a>
+				</div>
 
 				{% if app.user %}
 					{% if is_granted('ROLE_ADMIN') %}
-						<a href="{{ path('app_clients') }}" class="hover:text">Clients</a>
+						<a href="{{ path('app_clients') }}" class="hover:text-[#D1FAE5]">Clients</a>
 					{% else %}
             			<a href="{{ path('app_accounts') }}" class="hover:text-[#D1FAE5]">Mon espace personnel</a>
 					{% endif %}
@@ -76,7 +78,7 @@
 						</ul>
 					</section>
 				</div>
-				<div class="mt-2">
+				<div>
 					<p>&copy; {{ 'now'|date('Y') }} - BankApp</p>
 				</div>
 			</div>
