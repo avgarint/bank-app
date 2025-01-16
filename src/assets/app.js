@@ -11,7 +11,7 @@ console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
 
 //
 
-window.addEventListener('DOMContentLoaded', () => {
+function initializeCharts() {
   const canvases = document.querySelectorAll('canvas');
   canvases.forEach(canvas => {
     new Chart(canvas, {
@@ -34,4 +34,6 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-});
+}
+
+document.addEventListener('turbo:load', initializeCharts);
