@@ -14,31 +14,31 @@ class Account
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $account_type = null;
+    private ?string $type = null;
 
     #[ORM\Column]
     private ?int $balance = null;
 
     #[ORM\Column(length: 10)]
-    private ?string $account_number = null;
+    private ?string $number = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getAccountType(): ?string
+    public function getType(): ?string
     {
-        return $this->account_type;
+        return $this->type;
     }
 
-    public function setAccountType(string $account_type): static
+    public function setType(string $type): static
     {
-        if (!in_array($account_type, ['COURANT', 'EPARGNE'])) {
+        if (!in_array($type, ['COURANT', 'EPARGNE'])) {
             throw new \InvalidArgumentException('Le type de compte doit être "COURANT" ou "EPARGNE".');
         }
 
-        $this->account_type = $account_type;
+        $this->type = $type;
 
         return $this;
     }
@@ -50,11 +50,11 @@ class Account
 
     public function setBalance(int $balance): static
     {
-        if ($this->account_type === 'COURANT') {
+        if ($this->type === 'COURANT') {
             if ($balance < -400) {
                 throw new \InvalidArgumentException('Un compte courant ne peut pas avoir un découvert inférieur à -400€.');
             }
-        } elseif ($this->account_type === 'EPARGNE') {
+        } elseif ($this->type === 'EPARGNE') {
             if ($balance < 0 || $balance > 25000) {
                 throw new \InvalidArgumentException('Un compte épargne doit avoir un solde entre 0€ et 25 000€.');
             }
@@ -67,18 +67,18 @@ class Account
         return $this;
     }
 
-    public function getAccountNumber(): ?string
+    public function getNumber(): ?string
     {
-        return $this->account_number;
+        return $this->number;
     }
 
-    public function setAccountNumber(string $account_number): static
+    public function setNumber(string $number): static
     {
-        if (!preg_match('/^\d{1,10}$/', $account_number)) {
+        if (!preg_match('/^\d{1,10}$/', $number)) {
             throw new \InvalidArgumentException('Le numéro de compte doit contenir uniquement des chiffres (jusqu’à 10 caractères).');
         }
 
-        $this->account_number = $account_number;
+        $this->number = $number;
 
         return $this;
     }

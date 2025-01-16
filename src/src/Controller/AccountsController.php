@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-
 final class AccountsController extends AbstractController
 {
     #[Route('/accounts', name: 'app_accounts')]
@@ -25,27 +24,23 @@ final class AccountsController extends AbstractController
     {
         $accounts = $accountRepository->findAll();
 
-        return $this->render('accounts/index.html.twig', [
-            'accounts' => $accounts,
-        ]);
+        return $this->render('accounts/index.html.twig', ['accounts' => $accounts]);
     }
-
 
     #[Route('/accounts/new', name: 'app_accounts_new')]
     public function new(EntityManagerInterface $entityManager, Request $request): Response
     {
         $account = new Account();
-        $account->setAccountType('EPARGNE');
+        $account->setType('EPARGNE');
         $account->setBalance(0);
         $accountNumber = (new \DateTime())->format('dmHis');
-        $account->setAccountNumber($accountNumber);
+        $account->setNumber($accountNumber);
 
         $entityManager->persist($account);
         $entityManager->flush();
 
         return $this->redirectToRoute('app_accounts');
     }
-
 
     #[Route('/accounts/{id}/remove', name: 'app_accounts_remove')]
     public function remove(Account $account, EntityManagerInterface $entityManager): Response
@@ -59,21 +54,18 @@ final class AccountsController extends AbstractController
     #[Route('/accounts/{id}', name: 'app_accounts_details')]
     public function details(Account $account): Response
     {
-        return $this->render('accounts/details.html.twig', [
-            'account' => $account,
-        ]);
+        return $this->render('accounts/details.html.twig', ['account' => $account]);
     }
-
 
     #[Route('/accounts/{id}/transfer', name: 'transfer_create')]
     public function createTransfer(Account $account, EntityManagerInterface $entityManager, Request $request): Response
     {
         $transfer = new Transfer();
-        $transfer->setNoAccountEmitter($account->getAccountNumber());
+        $transfer->setNoAccountEmitter($account->getNumber());
 
         // Création du formulaire
         $form = $this->createForm(TransferType::class, $transfer, [
-            'account_number' => $account->getAccountNumber(),
+            'account_number' => $account->getNumber(),
         ]);
 
         $form->handleRequest($request);
@@ -86,11 +78,11 @@ final class AccountsController extends AbstractController
             // Logique de mise à jour des comptes
             $emitterAccount = $account; // Compte émetteur (déjà fourni)
             $receiverAccountNumber = $transfer->getNoAccountReceiver(); // Numéro du compte récepteur
-            $amount = $transfer->getAmountTransfer();
+            $amount = $transfer->getAmount();
 
             // Trouver le compte récepteur
             $receiverAccount = $entityManager->getRepository(Account::class)->findOneBy([
-                'account_number' => $receiverAccountNumber,
+                'number' => $receiverAccountNumber,
             ]);
 
             if (!$receiverAccount) {
@@ -126,16 +118,15 @@ final class AccountsController extends AbstractController
         ]);
     }
 
-
     #[Route('/accounts/{id}/deposit', name: 'deposit_create')]
     public function createDeposit(Account $account, EntityManagerInterface $entityManager, Request $request): Response
     {
         $deposit = new Deposit();
-        $deposit->setNoAccountInvolve($account->getAccountNumber());
+        $deposit->setNoAccountInvolve($account->getNumber());
 
         // Création du formulaire
         $form = $this->createForm(DepositType::class, $deposit, [
-            'account_number' => $account->getAccountNumber(),
+            'number' => $account->getNumber(),
         ]);
 
         $form->handleRequest($request);
@@ -147,7 +138,7 @@ final class AccountsController extends AbstractController
 
             // Logique de mise à jour du compte
             $account = $entityManager->getRepository(Account::class)->find($account->getId());
-            $amount = $deposit->getAmountDeposit();
+            $amount = $deposit->getAmount();
 
             // Mise à jour du solde
             $account->setBalance($account->getBalance() + $amount);
@@ -170,14 +161,14 @@ final class AccountsController extends AbstractController
     }
 
     #[Route('/accounts/{id}/debit', name: 'debit_create')]
-    public function createDebit(Account $account, EntityManagerInterface $em, Request $request): Response
+    public function createDebit(Account $account, EntityManagerInterface $entityManager, Request $request): Response
     {
         $debit = new Debit();
-        $debit->setNoAccountInvolve($account->getAccountNumber());
+        $debit->setNoAccountInvolve($account->getNumber());
 
         // Création du formulaire
         $form = $this->createForm(DebitType::class, $debit, [
-            'account_number' => $account->getAccountNumber(),
+            'number' => $account->getNumber(),
         ]);
 
         $form->handleRequest($request);
@@ -188,8 +179,8 @@ final class AccountsController extends AbstractController
             $debit = $form->getData();
 
             // Logique de mise à jour du compte
-            $account = $em->getRepository(Account::class)->find($account->getId());
-            $amount = $debit->getAmountDebit();
+            $account = $entityManager->getRepository(Account::class)->find($account->getId());
+            $amount = $debit->getAmount();
 
             // Vérifier le solde
             if ($account->getBalance() < $amount) {
@@ -201,9 +192,9 @@ final class AccountsController extends AbstractController
             $account->setBalance($account->getBalance() - $amount);
 
             // Sauvegarder le retrait
-            $em->persist($debit);
-            $em->persist($account);
-            $em->flush();
+            $entityManager->persist($debit);
+            $entityManager->persist($account);
+            $entityManager->flush();
 
             // Redirection avec message de succès
             $this->addFlash('success', 'Le retrait a été effectué avec succès.');

@@ -17,7 +17,7 @@ class Debit
     private ?string $no_account_involve = null;
 
     #[ORM\Column]
-    private ?int $amount_debit = null;
+    private ?int $amount = null;
 
     public function getId(): ?int
     {
@@ -36,14 +36,14 @@ class Debit
         return $this;
     }
 
-    public function getAmountDebit(): ?int
+    public function getAmount(): ?int
     {
-        return $this->amount_debit;
+        return $this->amount;
     }
 
-    public function setAmountDebit(int $amount_debit): static
+    public function setAmount(int $amount): static
     {
-        $this->amount_debit = $amount_debit;
+        $this->amount = $amount;
 
         return $this;
     }

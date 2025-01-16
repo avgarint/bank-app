@@ -22,7 +22,7 @@ class Transfer
 
     #[ORM\Column]
     #[Assert\Positive(message: 'Le montant doit être un nombre positif.')] // Validation ajoutée ici
-    private ?int $amount_transfer = null;
+    private ?int $amount = null;
 
     public function getId(): ?int
     {
@@ -53,14 +53,14 @@ class Transfer
         return $this;
     }
 
-    public function getAmountTransfer(): ?int
+    public function getAmount(): ?int
     {
-        return $this->amount_transfer;
+        return $this->amount;
     }
 
-    public function setAmountTransfer(int $amount_transfer): static
+    public function setAmount(int $amount): static
     {
-        $this->amount_transfer = $amount_transfer;
+        $this->amount = $amount;
 
         return $this;
     }

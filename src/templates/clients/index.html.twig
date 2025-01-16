@@ -16,7 +16,7 @@
                 <p class="text-lg font-semibold text-gray-700">
                     Password: <span class="text-red-500">{{ client.password }}</span>
                 </p>
-                <a href="{{ path('app_clients_remove', {id: client.id}) }}" class="text-red-500">Supprimer</a>
+                <a href="{{ path('app_clients_remove', { id: client.id }) }}" class="text-red-500">Supprimer</a>
             </div>
         {% endfor %}
     </div>

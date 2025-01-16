@@ -17,7 +17,7 @@ class Deposit
     private ?string $no_account_involve = null;
 
     #[ORM\Column]
-    private ?int $amount_deposit = null;
+    private ?int $amount = null;
 
     public function getId(): ?int
     {
@@ -36,14 +36,14 @@ class Deposit
         return $this;
     }
 
-    public function getAmountDeposit(): ?int
+    public function getAmount(): ?int
     {
-        return $this->amount_deposit;
+        return $this->amount;
     }
 
-    public function setAmountDeposit(int $amount_deposit): static
+    public function setAmount(int $amount): static
     {
-        $this->amount_deposit = $amount_deposit;
+        $this->amount = $amount;
 
         return $this;
     }

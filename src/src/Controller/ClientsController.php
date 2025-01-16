@@ -19,9 +19,7 @@ final class ClientsController extends AbstractController
     {
         $clients = $userRepository->findAll();
 
-        return $this->render('clients/index.html.twig', [
-            'clients' => $clients,
-        ]);
+        return $this->render('clients/index.html.twig', ['clients' => $clients]);
     }
 
     #[IsGranted('ROLE_ADMIN')]
@@ -38,8 +36,6 @@ final class ClientsController extends AbstractController
     #[Route('/clients/{id}', name: 'app_clients_details')]
     public function details(User $user): Response
     {
-        return $this->render('clients/details.html.twig', [
-            'client' => $user,
-        ]);
+        return $this->render('clients/details.html.twig', ['client' => $user]);
     }
 }

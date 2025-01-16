@@ -14,24 +14,24 @@ console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
 addEventListener('DOMContentLoaded', () => {
   const canvases = document.querySelectorAll('canvas');
   canvases.forEach(canvas => {
-      new Chart(canvas, {
-          type: 'line',
-          data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            datasets: [{
-              label: '# of Votes',
-              data: [12, 19, 3, 5, 2, 3],
-              borderWidth: 1,
-              tension: 0.3
-            }]
-          },
-          options: {
-            scales: {
-              y: {
-                beginAtZero: true
-              }
-            }
+    new Chart(canvas, {
+      type: 'line',
+      data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+          label: '# of Votes',
+          data: [12, 19, 3, 5, 2, 3],
+          borderWidth: 1,
+          tension: 0.3
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
           }
-        });
+        }
+      }
+    });
   });
 });

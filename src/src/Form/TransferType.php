@@ -15,7 +15,7 @@ class TransferType extends AbstractType
     {
         $builder
             ->add('no_account_emitter', TextType::class, [
-                'data' => $options['account_number'], // Préremplir avec la donnée passée
+                'data' => $options['number'], // Préremplir avec la donnée passée
                 'disabled' => true, // Rendre le champ non modifiable (facultatif)
             ])
             ->add('no_account_receiver', TextType::class, [
@@ -24,7 +24,7 @@ class TransferType extends AbstractType
                     'pattern' => '\d{10}', // Regex pattern to allow only 10 digit numbers
                 ],
             ])
-            ->add('amount_transfer')
+            ->add('amount')
             ->add('confirm', SubmitType::class, [
                 'label' => 'Confirm',
             ]);
@@ -34,9 +34,9 @@ class TransferType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Transfer::class,
-            'account_number' => null, // Option personnalisée
+            'number' => null, // Option personnalisée
         ]);
 
-        $resolver->setAllowedTypes('account_number', ['null', 'string']);
+        $resolver->setAllowedTypes('number', ['null', 'string']);
     }
 }

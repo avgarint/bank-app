@@ -15,10 +15,10 @@ class DepositType extends AbstractType
     {
         $builder
             ->add('no_account_involve', TextType::class, [
-                'data' => $options['account_number'], // Préremplir avec la donnée passée
+                'data' => $options['number'], // Préremplir avec la donnée passée
                 'disabled' => true, // Rendre le champ non modifiable (facultatif)
             ])
-            ->add('amount_deposit')
+            ->add('amount')
             ->add('confirm', SubmitType::class, [
                 'label' => 'Confirm',
             ]);;
@@ -28,7 +28,7 @@ class DepositType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Deposit::class,
-            'account_number' => null, // Option personnalisée
+            'number' => null, // Option personnalisée
         ]);
     }
 }
