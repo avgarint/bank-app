@@ -4,28 +4,30 @@
 
 {% block body %}
     <p class="text-2xl font-bold text-black-700">Comptes</p>
-    <div>
-        {% for account in accounts %}
-            <a class="flex justify-around items-center mt-5 p-1 bg-gray-200 rounded-lg shadow" href="{{ path('app_accounts_details', {id: account.id}) }}">
-                <div>
-                    <p class="text-lg font-semibold text-gray-700">
-                        Compte
-                        <span class="text-blue-500">{{ account.accountType }}</span>, &#8470; <span class="text-gray-500 italic">{{ account.accountNumber }}</span>
-                    </p>
-                    <p class="text-4xl font-semibold text-gray-700">
-                        <span class="text-blue-500">{{ account.balance }}</span>
-                        €
-                    </p>
-                    <p>{{ account.id }}</p>
-                </div>
-                <div>
-                    <canvas id="{{ account.id }}"></canvas>
-                </div>
-            </a>
-        {% endfor %}
-    </div>
-    <div class="flex justify-between">
-        <a href="{{ path('app_accounts_new') }}" class="btn btn-primary">Ajouter un compte</a>
-        <a href="{{ path('app_logout') }}" class="btn btn-secondary">Déconnexion</a>
-    </div>
+    <section class="flex justify-between items-stretch h-full space-x-4">
+        <section class="flex-1 space-y-4 p-4 bg-gray-100 rounded-lg shadow-md">
+            {% for account in accounts %}
+                <a class="flex justify-around items-center mt-5 p-1 bg-gray-200 rounded-lg shadow pointer" href="{{ path('app_accounts_details', { id: account.id }) }}">
+                    <div>
+                        <p class="text-lg font-semibold text-gray-700">
+                            Compte <span class="text-blue-500">{{ account.type }}</span>
+                        </p>
+                        <p class="text-sm text-gray-600">
+                            &#8470; <span class="text-gray-500 italic">{{ account.number }}</span>
+                        </p>
+                        <p class="text-2xl font-semibold text-gray-700">
+                            <span class="text-blue-500">{{ account.balance }}</span> €
+                        </p>
+                    </div>
+                    <div>
+                        <canvas id="{{ account.id }}"></canvas>
+                    </div>
+                </a>
+            {% endfor %}
+        </section>
+        <section class="w-1/4 flex flex-col space-y-4">
+            <a class="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition" href="{{ path('app_accounts_new') }}">Ajouter un compte</a>
+            <a class="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition" href="{{ path('app_logout') }}">Déconnexion</a>
+        </section>
+    </section>
 {% endblock %}

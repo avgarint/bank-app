@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250115090749 extends AbstractMigration
+final class Version20250116133938 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,10 +20,10 @@ final class Version20250115090749 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE account (id SERIAL NOT NULL, account_type VARCHAR(255) NOT NULL, balance INT NOT NULL, account_number VARCHAR(10) NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE debit (id SERIAL NOT NULL, no_account_involve VARCHAR(10) NOT NULL, amount_debit INT NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE deposit (id SERIAL NOT NULL, no_account_involve VARCHAR(10) NOT NULL, amount_deposit INT NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE transfer (id SERIAL NOT NULL, no_account_emitter VARCHAR(10) NOT NULL, no_account_receiver VARCHAR(10) NOT NULL, amount_transfer INT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE account (id SERIAL NOT NULL, type VARCHAR(255) NOT NULL, balance INT NOT NULL, number VARCHAR(10) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE debit (id SERIAL NOT NULL, no_account_involve VARCHAR(10) NOT NULL, amount INT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE deposit (id SERIAL NOT NULL, no_account_involve VARCHAR(10) NOT NULL, amount INT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE transfer (id SERIAL NOT NULL, no_account_emitter VARCHAR(10) NOT NULL, no_account_receiver VARCHAR(10) NOT NULL, amount INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE "user" (id SERIAL NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL ON "user" (email)');
         $this->addSql('CREATE TABLE messenger_messages (id BIGSERIAL NOT NULL, body TEXT NOT NULL, headers TEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, available_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, delivered_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
