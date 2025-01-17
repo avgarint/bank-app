@@ -22,6 +22,10 @@ class Account
     #[ORM\Column(length: 10)]
     private ?string $number = null;
 
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?User $user = null;    
+
     public function getId(): ?int
     {
         return $this->id;
@@ -79,6 +83,18 @@ class Account
         }
 
         $this->number = $number;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

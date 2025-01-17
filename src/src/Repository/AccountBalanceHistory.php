@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\AccountBalanceHistoryRecord;
+use App\Entity\AccountBalanceHistory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<AccountBalanceHistoryRecord>
+ * @extends ServiceEntityRepository<AccountBalanceHistory>
  */
-class AccountBalanceHistoryRecordRepository extends ServiceEntityRepository
+class AccountBalanceHistoryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, AccountBalanceHistoryRecord::class);
+        parent::__construct($registry, AccountBalanceHistory::class);
     }
 
 //    /**
-//     * @return AccountBalanceHistoryRecord[] Returns an array of AccountBalanceHistoryRecord objects
+//     * @return AccountBalanceHistory[] Returns an array of AccountBalanceHistory objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -31,7 +31,7 @@ class AccountBalanceHistoryRecordRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?AccountBalanceHistoryRecord
+//    public function findOneBySomeField($value): ?AccountBalanceHistory
 //    {
 //        return $this->createQueryBuilder('a')
 //            ->andWhere('a.exampleField = :val')

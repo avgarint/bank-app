@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\AccountBalanceHistoryRecordRepository;
+use App\Repository\AccountBalanceHistoryRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: AccountBalanceHistoryRecordRepository::class)]
-class AccountBalanceHistoryRecord
+#[ORM\Entity(repositoryClass: AccountBalanceHistoryRepository::class)]
+class AccountBalanceHistory
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
