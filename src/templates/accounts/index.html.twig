@@ -1,39 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon espace personnel - Bank{% endblock %}
+{% block title %}Mon espace personnel - Bank
+{% endblock %}
 
 {% block javascript %}
-    <srcipt src="https://unpkg.com/@hotwired/turbo@8.0.12/dist/turbo.es2017-umd.js"></srcipt>
+	<srcipt src="https://unpkg.com/@hotwired/turbo@8.0.12/dist/turbo.es2017-umd.js"></srcipt>
 {% endblock %}
 
 {% block body %}
-    <p class="text-2xl font-bold mb-4">Comptes</p>
-    <section class="flex justify-between items-stretch h-full space-x-4">
-        <!-- Account list -->
-        <section class="flex-1 space-y-4 p-4 bg-gray-100 rounded-lg shadow-md">
-            {% for account in accounts %}
-                <a class="flex justify-around items-center mt-5 p-1 bg-gray-200 rounded-lg shadow pointer" href="{{ path('app_accounts_details', { id: account.id }) }}">
-                    <div>
-                        <p class="text-lg font-semibold text-gray-700">
-                            Compte <span class="text-blue-500">{{ account.type }}</span>
-                        </p>
-                        <p class="text-sm text-gray-600">
-                            &#8470; <span class="text-gray-500 italic">{{ account.number }}</span>
-                        </p>
-                        <p class="text-2xl font-semibold text-gray-700">
-                            <span class="text-blue-500">{{ account.balance }}</span> €
-                        </p>
-                    </div>
-                    <div>
-                        <canvas id="{{ account.id }}"></canvas>
-                    </div>
-                </a>
-            {% endfor %}
-        </section>
+	<p class="text-2xl font-bold mb-4">Comptes</p>
+	<section
+		class="flex justify-between items-stretch h-full space-x-4">
+		<!-- Account list -->
+		<section class="flex-1 space-y-4 p-4 bg-gray-100 rounded-lg shadow-md">
+			{% for account in accounts %}
+				<a class="flex justify-around items-center mt-5 p-1 bg-gray-200 rounded-lg shadow pointer" href="{{ path('app_accounts_details', { id: account.id }) }}">
+					<div>
+						<p class="text-lg font-semibold text-gray-700">
+							Compte
+							<span class="text-blue-500">{{ account.type }}</span>
+						</p>
+						<p class="text-sm text-gray-600">
+							&#8470;
+							<span class="text-gray-500 italic">{{ account.number }}</span>
+						</p>
+						<p class="text-2xl font-semibold text-gray-700">
+							<span class="text-blue-500">{{ account.balance }}</span>
+							€
+						</p>
+					</div>
+					<div>
+						<canvas id="{{ account.id }}"></canvas>
+					</div>
+				</a>
+			{% endfor %}
+		</section>
 
-        <!-- Buttons for new account -->
-        <section class="w-1/4 flex flex-col space-y-4">
-            <div class="mt-5">
+		<!-- Buttons for new account -->
+		<section class="w-1/4 flex flex-col space-y-4">
+			<div class="mt-5">
 				<h2 class="text-xl font-bold">Ajouter un nouveau compte</h2>
 				{{ form_start(form) }}
 				<div class="mb-3">
@@ -47,8 +52,15 @@
 				</div>
 				{{ form_end(form) }}
 			</div>
-            <!--<a class="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition" href="{{ path('app_accounts_new') }}">Ajouter un compte</a>-->
-            <a class="bg-red-500 text-white py-2 px-6 rounded-md shadow-md hover:bg-red-600 transition" href="{{ path('app_logout') }}">Déconnexion</a>
-        </section>
-    </section>
+			{% for type, messages in app.flashes %}
+				{% for message in messages %}
+					<div class="flash-{{ type }}">
+						{{ message }}
+					</div>
+				{% endfor %}
+			{% endfor %}
+			<!--<a class="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition" href="{{ path('app_accounts_new') }}">Ajouter un compte</a>-->
+			<a class="bg-red-500 text-white py-2 px-6 rounded-md shadow-md hover:bg-red-600 transition" href="{{ path('app_logout') }}">Déconnexion</a>
+		</section>
+	</section>
 {% endblock %}

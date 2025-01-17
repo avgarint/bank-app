@@ -45,6 +45,13 @@ final class AccountsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $accountCount = $entityManager->getRepository(Account::class)->count([]);
+
+            if ($accountCount >= 5) {
+                $this->addFlash('error', 'Vous ne pouvez pas créer plus de 5 comptes.');
+                return $this->redirectToRoute('app_accounts');
+            }
+
             $entityManager->persist($account);
             $entityManager->flush();
 
@@ -139,7 +146,7 @@ final class AccountsController extends AbstractController
 
             $this->createBalanceHistoryRecord($account, $entityManager);
             $this->createBalanceHistoryRecord($receiverAccount, $entityManager);
-            
+
             $entityManager->flush();
 
             // Redirection avec message de succès
@@ -253,7 +260,7 @@ final class AccountsController extends AbstractController
             'action' => 'Retirer',
         ]);
     }
-    
+
     #[Route('/accounts/{id}/chart', name: 'app_accounts_chart')]
     public function chartData(Account $account, EntityManagerInterface $entityManager): JsonResponse
     {
