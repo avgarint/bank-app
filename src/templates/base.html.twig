@@ -29,7 +29,10 @@
 
 				{% if app.user %}
 					{% if is_granted('ROLE_ADMIN') %}
-						<a href="{{ path('app_clients') }}" class="hover:text-[#D1FAE5]">Clients</a>
+						<div class="flex items-center gap-8">
+							<a href="{{ path('app_clients') }}" class="hover:text-[#D1FAE5]">Clients</a>
+							<a href="{{ path('app_transfers') }}" class="hover:text-[#D1FAE5]">Transactions</a>
+						</div>
 					{% else %}
 						<a href="{{ path('app_accounts') }}" class="hover:text-[#D1FAE5]">Mon espace personnel</a>
 					{% endif %}
@@ -39,8 +42,9 @@
 			</nav>
 		</header>
 
-		<main class="m-4 mx-auto w-[60%] text-[18px] leading-[1.5] font-sans"> {% block body %}{% endblock %}
-			</main>
+		<main class="m-4 mx-auto w-[60%] text-[18px] leading-[1.5] font-sans">
+			{% block body %}{% endblock %}
+		</main>
 
 			<footer class="text-center mt-auto bg-[#E5E7EB] py-6">
 				<div class="container mx-auto">
@@ -97,9 +101,11 @@
 						</section>
 					</div>
 					<div>
-						<p>&copy;
+						<p>
+							&copy;
 							{{ 'now'|date('Y') }}
-							- BankApp</p>
+							- BankApp
+						</p>
 					</div>
 				</div>
 			</footer>

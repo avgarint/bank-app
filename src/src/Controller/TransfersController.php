@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class TransfersController extends AbstractController
 {
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/transfers', name: 'app_transfers')]
     public function index(TransferRepository $transferRepository): Response
     {
@@ -23,7 +23,7 @@ final class TransfersController extends AbstractController
         return $this->render('transfers/index.html.twig', ['transfers' => $transfers]);
     }
 
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/transfers/{id}', name: 'app_transfers_details')]
     public function details(Transfer $transfer): Response
     {
