@@ -30,7 +30,21 @@
             {% endfor %}
         </section>
         <section class="w-1/4 flex flex-col space-y-4">
-            <a class="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition" href="{{ path('app_accounts_new') }}">Ajouter un compte</a>
+            <div class="mt-5">
+				<h2 class="text-xl font-bold">Ajouter un nouveau compte</h2>
+				{{ form_start(form) }}
+				<div class="mb-3">
+					{{ form_row(form.type) }}
+				</div>
+				<div class="mb-3" style="display: none;">
+					{{ form_row(form.balance) }}
+				</div>
+				<div>
+					{{ form_widget(form.submit) }}
+				</div>
+				{{ form_end(form) }}
+			</div>
+            <!--<a class="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition" href="{{ path('app_accounts_new') }}">Ajouter un compte</a>-->
             <a class="bg-red-500 text-white py-2 px-6 rounded-md shadow-md hover:bg-red-600 transition" href="{{ path('app_logout') }}">Déconnexion</a>
         </section>
     </section>

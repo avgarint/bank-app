@@ -17,9 +17,9 @@ function initializeCharts() {
     new Chart(canvas, {
       type: 'line',
       data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: ['11/01/2025', '12/01/2025', '13/01/2025', '14/01/2025', '15/01/2025', '16/01/2025'],
         datasets: [{
-          label: '# of Votes',
+          label: 'Montant',
           data: [12, 19, 3, 5, 2, 3],
           borderWidth: 1,
           tension: 0.3
