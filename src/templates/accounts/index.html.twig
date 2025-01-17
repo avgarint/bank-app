@@ -8,7 +8,7 @@
     <!-- Account list -->
     <section class="flex justify-between items-stretch h-full space-x-4">
 		<!-- Account list -->
-		<section class="flex-1 space-y-4 p-4 bg-gray-100 rounded-lg shadow-md">
+		<div class="flex-1 space-y-4 p-4 bg-gray-100 rounded-lg shadow-md">
 			{% for account in accounts %}
 				<a class="flex justify-around items-center mt-5 p-1 bg-gray-200 rounded-lg shadow pointer" href="{{ path('app_accounts_details', { id: account.id }) }}">
 					<div>
@@ -29,25 +29,24 @@
 					</div>
 				</a>
 			{% endfor %}
-		</section>
+		</div>
 
 		<!-- Buttons for new account -->
-		<section class="w-1/4 flex flex-col space-y-4">
-			<div class="mt-5">
-				<h2 class="text-xl font-bold">Ajouter un nouveau compte</h2>
-				{{ form_start(form) }}
-				<div class="mb-3">
-					{{ form_row(form.type) }}
-				</div>
-				<div class="mb-3" style="display: none;">
-					{{ form_row(form.balance) }}
-				</div>
-				<div class="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition">
-					{{ form_widget(form.submit) }}
-				</div>
-				{{ form_end(form) }}
-			</div>
-
+		<div class="w-1/4 flex flex-col space-y-4">
+			<p class="text-xl font-bold">Ajouter un nouveau compte</p>
+			{{ form_start(form) }}
+                <div class="mb-3">
+                    {{ form_row(form.type) }}
+                </div>
+                <div class="mb-3" style="display: none;">
+                    {{ form_row(form.balance) }}
+                </div>
+                <div class="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition">
+                    {{ form_widget(form.submit) }}
+                </div>
+			{{ form_end(form) }}    
+			<a class="bg-red-500 text-white py-2 px-6 rounded-md shadow-md hover:bg-red-600 transition mt-5" href="{{ path('app_logout') }}">Déconnexion</a>
+        
             <!-- Flash messages -->
 			{% for type, messages in app.flashes %}
 				{% for message in messages %}
@@ -56,8 +55,6 @@
 					</div>
 				{% endfor %}
 			{% endfor %}
-            
-			<a class="bg-red-500 text-white py-2 px-6 rounded-md shadow-md hover:bg-red-600 transition" href="{{ path('app_logout') }}">Déconnexion</a>
-		</section>
+        </div>
 	</section>
 {% endblock %}

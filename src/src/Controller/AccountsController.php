@@ -85,7 +85,10 @@ final class AccountsController extends AbstractController
     public function details(EntityManagerInterface $entityManager, Account $account): Response
     {
         return $this->render('accounts/details.html.twig', [
-            'account' => $account
+            'account' => $account,
+            'transfers' => $entityManager->getRepository(Transfer::class)->findBy(['account' => $account]),
+            'deposits' => $entityManager->getRepository(Deposit::class)->findBy(['account' => $account]),
+            'debits' => $entityManager->getRepository(Debit::class)->findBy(['account' => $account])
         ]);
     }
 
