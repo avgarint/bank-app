@@ -96,6 +96,7 @@ final class AccountsController extends AbstractController
         // Création du formulaire
         $form = $this->createForm(TransferType::class, $transfer, [
             'number' => $account->getNumber(),
+            'account_id' => $account->getId(),
         ]);
 
         $form->handleRequest($request);
@@ -161,6 +162,7 @@ final class AccountsController extends AbstractController
         // Création du formulaire
         $form = $this->createForm(DepositType::class, $deposit, [
             'number' => $account->getNumber(),
+            'account_id' => $account->getId(),
         ]);
 
         $form->handleRequest($request);
@@ -206,6 +208,7 @@ final class AccountsController extends AbstractController
         // Création du formulaire
         $form = $this->createForm(DebitType::class, $debit, [
             'number' => $account->getNumber(),
+            'account_id' => $account->getId(),
         ]);
 
         $form->handleRequest($request);
