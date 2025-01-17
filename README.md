@@ -64,6 +64,12 @@ Auteur
 groupe 
 
 Cela fournit un guide clair pour les utilisateurs souhaitant configurer et lancer le projet sur leur machine.
+
 # Wire_frame :
 
 ![wireframe projet php v2-1](https://github.com/user-attachments/assets/1915628c-493e-4182-a56b-121204ab9d71)
+
+````
+# MCD :
+
+![MCD serv WEB](https://github.com/user-attachments/assets/b27bb185-8acf-4da9-a419-b80d8f4497c8)
