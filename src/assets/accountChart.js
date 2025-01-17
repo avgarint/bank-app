@@ -18,33 +18,33 @@ function initializeChart() {
         new Chart(canvas, {
             type: 'line',
             data: {
-              labels: data.labels,
-              datasets: [
-                {
-                  label: 'Montant',
-                  data: data.values,
-                  borderColor: 'rgba(75, 192, 192, 1)',
-                  borderWidth: 2,
-                  tension: 0.3
-                }
-              ]
+                labels: data.labels,
+                datasets: [
+                    {
+                        label: 'Montant',
+                        data: data.values,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        tension: 0.3
+                    }
+                ]
             },
             options: {
-              responsive: true,
-              scales: {
-                y: {
-                  beginAtZero: true
-                }
-              },
-              plugins: {
-                legend: {
-                  position: 'top'
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 },
-                title: {
-                  display: true,
-                  text: 'Balance History'
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                        title: {
+                        display: true,
+                        text: 'Balance History'
+                    }
                 }
-              }
             }
         });
     }).catch(error => {

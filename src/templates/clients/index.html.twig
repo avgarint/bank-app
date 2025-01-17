@@ -4,7 +4,9 @@
 
 {% block body %}
     <p class="text-2xl font-bold mb-4">Clients</p>
-    <div>
+
+    <!-- Client list -->
+    <section>
         {% for client in clients %}
             <div class="mt-5 p-5 bg-gray-200 rounded-lg shadow">
                 <p class="text-lg font-semibold text-gray-700">
@@ -16,5 +18,5 @@
                 <a href="{{ path('app_clients_remove', { id: client.id }) }}" class="text-red-500">Supprimer</a>
             </div>
         {% endfor %}
-    </div>
+    </section>
 {% endblock %}

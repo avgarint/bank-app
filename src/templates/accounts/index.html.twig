@@ -4,8 +4,9 @@
 
 {% block body %}
 	<p class="text-2xl font-bold mb-4">Comptes</p>
-	<section
-		class="flex justify-between items-stretch h-full space-x-4">
+	
+    <!-- Account list -->
+    <section class="flex justify-between items-stretch h-full space-x-4">
 		<!-- Account list -->
 		<section class="flex-1 space-y-4 p-4 bg-gray-100 rounded-lg shadow-md">
 			{% for account in accounts %}
@@ -20,8 +21,7 @@
 							<span class="text-gray-500 italic">{{ account.number }}</span>
 						</p>
 						<p class="text-2xl font-semibold text-gray-700">
-							<span class="text-blue-500">{{ account.balance }}</span>
-							€
+							<span class="text-blue-500">{{ account.balance }}</span> €
 						</p>
 					</div>
 					<div>
@@ -47,6 +47,8 @@
 				</div>
 				{{ form_end(form) }}
 			</div>
+
+            <!-- Flash messages -->
 			{% for type, messages in app.flashes %}
 				{% for message in messages %}
 					<div class="flash-{{ type }}">
@@ -54,7 +56,7 @@
 					</div>
 				{% endfor %}
 			{% endfor %}
-			<!--<a class="bg-teal-600 text-white py-2 px-6 rounded-md shadow-md hover:bg-teal-700 transition" href="{{ path('app_accounts_new') }}">Ajouter un compte</a>-->
+            
 			<a class="bg-red-500 text-white py-2 px-6 rounded-md shadow-md hover:bg-red-600 transition" href="{{ path('app_logout') }}">Déconnexion</a>
 		</section>
 	</section>
