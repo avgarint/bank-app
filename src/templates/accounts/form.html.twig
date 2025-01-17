@@ -1,24 +1,82 @@
 {% extends "base.html.twig" %}
 
 {% block title %}
-	virement - Bank
+    virement - Bank
 {% endblock %}
 
 {% block stylesheets %}
-	{{ parent() }}
+    {{ parent() }}
 
-	<style>
-		input,
-		textarea {
-			width: 100%;
-			margin-bottom: 10px;
-			border: 1px solid black;
-		}
-	</style>
+    <style>
+
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px;
+			padding-bottom: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            box-sizing: border-box;
+			margin-left: 20%;
+			margin-right: 20%;
+			margin-top: 5%;
+	
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            outline: none;
+            box-sizing: border-box;
+
+        }
+
+        input:focus, textarea:focus {
+            border-color: #00897B;
+            box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.2);
+        }
+
+        #transfer_confirm {
+            width: 100%;
+            padding: 10px;
+            background-color: #00897B;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: opacity 0.2s ease-in-out;
+			margin-top: 10px;
+        }
+
+        button:hover {
+            opacity: 0.9;
+			background-color: #00695c;
+        }
+
+        button:focus {
+            outline: 2px solid rgba(0, 137, 123, 0.5);
+        }
+    </style>
 {% endblock %}
 
 {% block body %}
-	<h1>{{ action }}
-		un virement</h1>
+    <div class="form-container">
+        <h1>{{ action }} un virement</h1>
 
-	{{ form(formulaire) }}{% endblock %}
+        {{ form(formulaire) }}
+    </div>
+{% endblock %}
