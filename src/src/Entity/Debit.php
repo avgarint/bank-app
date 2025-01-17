@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\DebitRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DebitRepository::class)]
@@ -18,6 +19,12 @@ class Debit
 
     #[ORM\Column]
     private ?int $amount = null;
+
+    #[ORM\Column]
+    private ?int $id_account = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $date = null;
 
     public function getId(): ?int
     {
@@ -44,6 +51,30 @@ class Debit
     public function setAmount(int $amount): static
     {
         $this->amount = $amount;
+
+        return $this;
+    }
+
+    public function getIdAccount(): ?int
+    {
+        return $this->id_account;
+    }
+
+    public function setIdAccount(int $id_account): static
+    {
+        $this->id_account = $id_account;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): static
+    {
+        $this->date = $date;
 
         return $this;
     }
