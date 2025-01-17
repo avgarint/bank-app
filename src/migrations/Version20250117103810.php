@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250117093401 extends AbstractMigration
+final class Version20250117103810 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -23,9 +23,11 @@ final class Version20250117093401 extends AbstractMigration
         $this->addSql('CREATE TABLE account (id SERIAL NOT NULL, type VARCHAR(255) NOT NULL, balance INT NOT NULL, number VARCHAR(10) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE account_balance_history_record (id SERIAL NOT NULL, account_id INT NOT NULL, date DATE NOT NULL, balance INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_4541ECD39B6B5FBA ON account_balance_history_record (account_id)');
-        $this->addSql('CREATE TABLE debit (id SERIAL NOT NULL, no_account_involve VARCHAR(10) NOT NULL, amount INT NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE deposit (id SERIAL NOT NULL, no_account_involve VARCHAR(10) NOT NULL, amount INT NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE transfer (id SERIAL NOT NULL, no_account_emitter VARCHAR(10) NOT NULL, no_account_receiver VARCHAR(10) NOT NULL, amount INT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE debit (id SERIAL NOT NULL, account_id INT NOT NULL, no_account_involve VARCHAR(10) NOT NULL, amount INT NOT NULL, date DATE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX IDX_E6C5B249B6B5FBA ON debit (account_id)');
+        $this->addSql('CREATE TABLE deposit (id SERIAL NOT NULL, no_account_involve VARCHAR(10) NOT NULL, amount INT NOT NULL, account VARCHAR(255) NOT NULL, date DATE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE transfer (id SERIAL NOT NULL, account_id INT NOT NULL, no_account_emitter VARCHAR(10) NOT NULL, no_account_receiver VARCHAR(10) NOT NULL, amount INT NOT NULL, date DATE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX IDX_4034A3C09B6B5FBA ON transfer (account_id)');
         $this->addSql('CREATE TABLE "user" (id SERIAL NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL ON "user" (email)');
         $this->addSql('CREATE TABLE messenger_messages (id BIGSERIAL NOT NULL, body TEXT NOT NULL, headers TEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, available_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, delivered_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
@@ -44,6 +46,8 @@ final class Version20250117093401 extends AbstractMigration
         $this->addSql('DROP TRIGGER IF EXISTS notify_trigger ON messenger_messages;');
         $this->addSql('CREATE TRIGGER notify_trigger AFTER INSERT OR UPDATE ON messenger_messages FOR EACH ROW EXECUTE PROCEDURE notify_messenger_messages();');
         $this->addSql('ALTER TABLE account_balance_history_record ADD CONSTRAINT FK_4541ECD39B6B5FBA FOREIGN KEY (account_id) REFERENCES account (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE debit ADD CONSTRAINT FK_E6C5B249B6B5FBA FOREIGN KEY (account_id) REFERENCES account (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE transfer ADD CONSTRAINT FK_4034A3C09B6B5FBA FOREIGN KEY (account_id) REFERENCES account (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
     public function down(Schema $schema): void
@@ -51,6 +55,8 @@ final class Version20250117093401 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE account_balance_history_record DROP CONSTRAINT FK_4541ECD39B6B5FBA');
+        $this->addSql('ALTER TABLE debit DROP CONSTRAINT FK_E6C5B249B6B5FBA');
+        $this->addSql('ALTER TABLE transfer DROP CONSTRAINT FK_4034A3C09B6B5FBA');
         $this->addSql('DROP TABLE account');
         $this->addSql('DROP TABLE account_balance_history_record');
         $this->addSql('DROP TABLE debit');

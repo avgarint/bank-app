@@ -72,6 +72,12 @@ final class AccountsController extends AbstractController
         return $this->redirectToRoute('app_accounts');
     }
 
+    #[Route('/accounts/{id}', name: 'app_accounts_details')]
+    public function details(Account $account): Response
+    {
+        return $this->render('accounts/details.html.twig', ['account' => $account]);
+    }
+
     #[Route('/accounts/{id}/remove', name: 'app_accounts_remove')]
     public function remove(Account $account, EntityManagerInterface $entityManager): Response
     {
@@ -81,22 +87,16 @@ final class AccountsController extends AbstractController
         return $this->redirectToRoute('app_accounts');
     }
 
-    #[Route('/accounts/{id}', name: 'app_accounts_details')]
-    public function details(Account $account): Response
-    {
-        return $this->render('accounts/details.html.twig', ['account' => $account]);
-    }
-
     #[Route('/accounts/{id}/transfer', name: 'transfer_create')]
     public function createTransfer(Account $account, EntityManagerInterface $entityManager, Request $request): Response
     {
         $transfer = new Transfer();
+        $transfer->setAccount($account);
         $transfer->setNoAccountEmitter($account->getNumber());
 
         // Création du formulaire
         $form = $this->createForm(TransferType::class, $transfer, [
-            'number' => $account->getNumber(),
-            'account_id' => $account->getId(),
+            'number' => $account->getNumber()
         ]);
 
         $form->handleRequest($request);
@@ -157,12 +157,12 @@ final class AccountsController extends AbstractController
     public function createDeposit(Account $account, EntityManagerInterface $entityManager, Request $request): Response
     {
         $deposit = new Deposit();
+        $deposit->setAccount($account);
         $deposit->setNoAccountInvolve($account->getNumber());
 
         // Création du formulaire
         $form = $this->createForm(DepositType::class, $deposit, [
-            'number' => $account->getNumber(),
-            'account_id' => $account->getId(),
+            'number' => $account->getNumber()
         ]);
 
         $form->handleRequest($request);
@@ -171,10 +171,10 @@ final class AccountsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Récupérer les données du formulaire
             $deposit = $form->getData();
+            $amount = $deposit->getAmount();
 
             // Logique de mise à jour du compte
             $account = $entityManager->getRepository(Account::class)->find($account->getId());
-            $amount = $deposit->getAmount();
 
             // Mise à jour du solde
             $account->setBalance($account->getBalance() + $amount);
@@ -203,12 +203,12 @@ final class AccountsController extends AbstractController
     public function createDebit(Account $account, EntityManagerInterface $entityManager, Request $request): Response
     {
         $debit = new Debit();
+        $debit->setAccount($account);
         $debit->setNoAccountInvolve($account->getNumber());
 
         // Création du formulaire
         $form = $this->createForm(DebitType::class, $debit, [
-            'number' => $account->getNumber(),
-            'account_id' => $account->getId(),
+            'number' => $account->getNumber()
         ]);
 
         $form->handleRequest($request);
@@ -250,7 +250,7 @@ final class AccountsController extends AbstractController
             'action' => 'Retirer',
         ]);
     }
-
+    
     #[Route('/accounts/{id}/chart', name: 'app_accounts_chart')]
     public function chartData(Account $account, EntityManagerInterface $entityManager): JsonResponse
     {

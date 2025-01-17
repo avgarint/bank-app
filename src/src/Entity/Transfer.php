@@ -25,8 +25,9 @@ class Transfer
     #[Assert\Positive(message: 'Le montant doit être un nombre positif.')] // Validation ajoutée ici
     private ?int $amount = null;
 
-    #[ORM\Column]
-    private ?int $id_account = null;
+    #[ORM\ManyToOne(targetEntity: Account::class)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?Account $account = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
@@ -72,14 +73,14 @@ class Transfer
         return $this;
     }
 
-    public function getIdAccount(): ?int
+    public function getAccount(): ?Account
     {
-        return $this->id_account;
+        return $this->account;
     }
 
-    public function setIdAccount(int $id_account): static
+    public function setAccount(Account $account): static
     {
-        $this->id_account = $id_account;
+        $this->account = $account;
 
         return $this;
     }

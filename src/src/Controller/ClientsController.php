@@ -23,6 +23,13 @@ final class ClientsController extends AbstractController
     }
 
     #[IsGranted('ROLE_ADMIN')]
+    #[Route('/clients/{id}', name: 'app_clients_details')]
+    public function details(User $user): Response
+    {
+        return $this->render('clients/details.html.twig', ['client' => $user]);
+    }
+    
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/clients/{id}/remove', name: 'app_clients_remove')]
     public function remove(User $user, EntityManagerInterface $entityManager): Response
     {
@@ -30,12 +37,5 @@ final class ClientsController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('app_clients');
-    }
-
-    #[IsGranted('ROLE_ADMIN')]
-    #[Route('/clients/{id}', name: 'app_clients_details')]
-    public function details(User $user): Response
-    {
-        return $this->render('clients/details.html.twig', ['client' => $user]);
     }
 }
