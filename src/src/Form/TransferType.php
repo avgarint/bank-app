@@ -25,7 +25,6 @@ class TransferType extends AbstractType
                 ],
             ])
             ->add('amount')
-            ->add('date')
             ->add('confirm', SubmitType::class, [
                 'label' => 'Confirm',
             ]);

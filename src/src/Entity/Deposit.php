@@ -20,8 +20,6 @@ class Deposit
     #[ORM\Column]
     private ?int $amount = null;
 
-    #[ORM\Column]
-
     #[ORM\ManyToOne(targetEntity: Account::class)]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Account $account = null;

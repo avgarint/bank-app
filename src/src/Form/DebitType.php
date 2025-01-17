@@ -19,7 +19,6 @@ class DebitType extends AbstractType
                 'disabled' => true, // Rendre le champ non modifiable (facultatif)
             ])
             ->add('amount')
-            ->add('date')
             ->add('confirm', SubmitType::class, [
                 'label' => 'Confirm',
             ])

@@ -92,6 +92,7 @@ final class AccountsController extends AbstractController
     {
         $transfer = new Transfer();
         $transfer->setAccount($account);
+        $transfer->setDate(new \DateTime());
         $transfer->setNoAccountEmitter($account->getNumber());
 
         // Création du formulaire
@@ -158,6 +159,7 @@ final class AccountsController extends AbstractController
     {
         $deposit = new Deposit();
         $deposit->setAccount($account);
+        $deposit->setDate(new \DateTime());
         $deposit->setNoAccountInvolve($account->getNumber());
 
         // Création du formulaire
@@ -204,6 +206,7 @@ final class AccountsController extends AbstractController
     {
         $debit = new Debit();
         $debit->setAccount($account);
+        $debit->setDate(new \DateTime());
         $debit->setNoAccountInvolve($account->getNumber());
 
         // Création du formulaire
