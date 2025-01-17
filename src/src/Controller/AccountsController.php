@@ -5,13 +5,14 @@ namespace App\Controller;
 use App\Entity\Debit;
 use App\Entity\Account;
 use App\Entity\Deposit;
+use App\Entity\User;
 use App\Form\DebitType;
 use App\Entity\Transfer;
 use App\Form\AccountType;
 use App\Form\DepositType;
 use App\Form\TransferType;
 use App\Repository\AccountRepository;
-use App\Entity\AccountBalanceHistoryRecord;
+use App\Entity\AccountBalanceHistory;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +25,7 @@ final class AccountsController extends AbstractController
 {
     private function createBalanceHistoryRecord(Account $account, EntityManagerInterface $entityManager): void
     {
-        $record = new AccountBalanceHistoryRecord();
+        $record = new AccountBalanceHistory();
         $record->setAccount($account);
         $record->setDate(new \DateTime());
         $record->setBalance($account->getBalance());
@@ -34,14 +35,16 @@ final class AccountsController extends AbstractController
     #[Route('/accounts', name: 'app_accounts')]
     public function index(EntityManagerInterface $entityManager, Request $request): Response
     {
-        $accounts = $entityManager->getRepository(Account::class)->findAll();
+        $currentUserEmail = $this->getUser()->getEmail();
+        $currentUser = $entityManager->getRepository(User::class)->findOneBy(['email' => $currentUserEmail]);
 
         $account = new Account();
-        $accountNumber = (new \DateTime())->format('dmHis');
-        $account->setNumber($accountNumber);
+        $account->setUser($currentUser);
+        $account->setNumber((new \DateTime())->format('dmHis'));
+
+        $accounts = $entityManager->getRepository(Account::class)->findBy(['user' => $account->getUser()]);
 
         $form = $this->createForm(AccountType::class, $account);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -70,8 +73,7 @@ final class AccountsController extends AbstractController
         $account = new Account();
         $account->setType('EPARGNE');
         $account->setBalance(0);
-        $accountNumber = (new \DateTime())->format('dmHis');
-        $account->setNumber($accountNumber);
+        $account->setNumber((new \DateTime())->format('dmHis'));
 
         $entityManager->persist($account);
         $entityManager->flush();
@@ -80,9 +82,11 @@ final class AccountsController extends AbstractController
     }
 
     #[Route('/accounts/{id}', name: 'app_accounts_details')]
-    public function details(Account $account): Response
+    public function details(EntityManagerInterface $entityManager, Account $account): Response
     {
-        return $this->render('accounts/details.html.twig', ['account' => $account]);
+        return $this->render('accounts/details.html.twig', [
+            'account' => $account
+        ]);
     }
 
     #[Route('/accounts/{id}/remove', name: 'app_accounts_remove')]
@@ -261,10 +265,11 @@ final class AccountsController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/accounts/{id}/chart', name: 'app_accounts_chart')]
-    public function chartData(Account $account, EntityManagerInterface $entityManager): JsonResponse
+    public function getChartData(Account $account, EntityManagerInterface $entityManager): JsonResponse
     {
-        $records = $entityManager->getRepository(AccountBalanceHistoryRecord::class)
+        $records = $entityManager->getRepository(AccountBalanceHistory::class)
             ->findBy(['account' => $account], ['date' => 'ASC']);
 
         $labels = [];
