@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TransferRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -23,6 +24,12 @@ class Transfer
     #[ORM\Column]
     #[Assert\Positive(message: 'Le montant doit être un nombre positif.')] // Validation ajoutée ici
     private ?int $amount = null;
+
+    #[ORM\Column]
+    private ?int $id_account = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $date = null;
 
     public function getId(): ?int
     {
@@ -61,6 +68,30 @@ class Transfer
     public function setAmount(int $amount): static
     {
         $this->amount = $amount;
+
+        return $this;
+    }
+
+    public function getIdAccount(): ?int
+    {
+        return $this->id_account;
+    }
+
+    public function setIdAccount(int $id_account): static
+    {
+        $this->id_account = $id_account;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): static
+    {
+        $this->date = $date;
 
         return $this;
     }

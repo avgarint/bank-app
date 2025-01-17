@@ -8,24 +8,33 @@ use App\Entity\Deposit;
 use App\Form\DebitType;
 use App\Entity\Transfer;
 use App\Form\AccountType;
-
 use App\Form\DepositType;
 use App\Form\TransferType;
 use App\Repository\AccountRepository;
+use App\Entity\AccountBalanceHistoryRecord;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 final class AccountsController extends AbstractController
 {
+    private function createBalanceHistoryRecord(Account $account, EntityManagerInterface $entityManager): void
+    {
+        $record = new AccountBalanceHistoryRecord();
+        $record->setAccount($account);
+        $record->setDate(new \DateTime());
+        $record->setBalance($account->getBalance());
+        $entityManager->persist($record);
+    }
+
     #[Route('/accounts', name: 'app_accounts')]
     public function index(EntityManagerInterface $entityManager, Request $request): Response
     {
-
         $accounts = $entityManager->getRepository(Account::class)->findAll();
-
 
         $account = new Account();
         $accountNumber = (new \DateTime())->format('dmHis');
@@ -34,7 +43,6 @@ final class AccountsController extends AbstractController
         $form = $this->createForm(AccountType::class, $account);
 
         $form->handleRequest($request);
-
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($account);
@@ -48,8 +56,6 @@ final class AccountsController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
-
 
     #[Route('/accounts/new', name: 'app_accounts_new')]
     public function new(EntityManagerInterface $entityManager, Request $request): Response
@@ -90,6 +96,7 @@ final class AccountsController extends AbstractController
         // Création du formulaire
         $form = $this->createForm(TransferType::class, $transfer, [
             'number' => $account->getNumber(),
+            'account_id' => $account->getId(),
         ]);
 
         $form->handleRequest($request);
@@ -128,6 +135,10 @@ final class AccountsController extends AbstractController
             $entityManager->persist($transfer);
             $entityManager->persist($emitterAccount);
             $entityManager->persist($receiverAccount);
+
+            $this->createBalanceHistoryRecord($account, $entityManager);
+            $this->createBalanceHistoryRecord($receiverAccount, $entityManager);
+            
             $entityManager->flush();
 
             // Redirection avec message de succès
@@ -151,6 +162,7 @@ final class AccountsController extends AbstractController
         // Création du formulaire
         $form = $this->createForm(DepositType::class, $deposit, [
             'number' => $account->getNumber(),
+            'account_id' => $account->getId(),
         ]);
 
         $form->handleRequest($request);
@@ -170,6 +182,9 @@ final class AccountsController extends AbstractController
             // Sauvegarder le dépôt
             $entityManager->persist($deposit);
             $entityManager->persist($account);
+
+            $this->createBalanceHistoryRecord($account, $entityManager);
+
             $entityManager->flush();
 
             // Redirection avec message de succès
@@ -193,6 +208,7 @@ final class AccountsController extends AbstractController
         // Création du formulaire
         $form = $this->createForm(DebitType::class, $debit, [
             'number' => $account->getNumber(),
+            'account_id' => $account->getId(),
         ]);
 
         $form->handleRequest($request);
@@ -218,6 +234,9 @@ final class AccountsController extends AbstractController
             // Sauvegarder le retrait
             $entityManager->persist($debit);
             $entityManager->persist($account);
+
+            $this->createBalanceHistoryRecord($account, $entityManager);
+
             $entityManager->flush();
 
             // Redirection avec message de succès
@@ -229,6 +248,26 @@ final class AccountsController extends AbstractController
         return $this->render('accounts/form.html.twig', [
             'formulaire' => $form->createView(),
             'action' => 'Retirer',
+        ]);
+    }
+
+    #[Route('/accounts/{id}/chart', name: 'app_accounts_chart')]
+    public function chartData(Account $account, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $records = $entityManager->getRepository(AccountBalanceHistoryRecord::class)
+            ->findBy(['account' => $account], ['date' => 'ASC']);
+
+        $labels = [];
+        $values = [];
+
+        foreach ($records as $record) {
+            $labels[] = $record->getDate()->format('Y-m-d');
+            $values[] = $record->getBalance();
+        }
+
+        return $this->json([
+            'labels' => $labels,
+            'values' => $values,
         ]);
     }
 }

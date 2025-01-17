@@ -19,6 +19,14 @@ class DepositType extends AbstractType
                 'disabled' => true, // Rendre le champ non modifiable (facultatif)
             ])
             ->add('amount')
+            ->add('id_account', TextType::class, [
+                'data' => $options['account_id'], // Préremplir avec l'ID du compte
+                'disabled' => true, // Rendre le champ non modifiable (facultatif)
+            ])
+            ->add('date', TextType::class, [
+                'data' => (new \DateTime())->format('Y-m-d'), // Préremplir avec la date du jour
+                'disabled' => true, // Rendre le champ non modifiable (facultatif)
+            ])
             ->add('confirm', SubmitType::class, [
                 'label' => 'Confirm',
             ]);;
@@ -29,6 +37,10 @@ class DepositType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Deposit::class,
             'number' => null, // Option personnalisée
+            'account_id' => null, // Option personnalisée pour l'ID du compte
         ]);
+
+        $resolver->setAllowedTypes('number', ['null', 'string']);
+        $resolver->setAllowedTypes('account_id', ['null', 'int']);
     }
 }

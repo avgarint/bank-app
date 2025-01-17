@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250116135734 extends AbstractMigration
+final class Version20250117093401 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,6 +21,8 @@ final class Version20250116135734 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE account (id SERIAL NOT NULL, type VARCHAR(255) NOT NULL, balance INT NOT NULL, number VARCHAR(10) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE account_balance_history_record (id SERIAL NOT NULL, account_id INT NOT NULL, date DATE NOT NULL, balance INT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX IDX_4541ECD39B6B5FBA ON account_balance_history_record (account_id)');
         $this->addSql('CREATE TABLE debit (id SERIAL NOT NULL, no_account_involve VARCHAR(10) NOT NULL, amount INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE deposit (id SERIAL NOT NULL, no_account_involve VARCHAR(10) NOT NULL, amount INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE transfer (id SERIAL NOT NULL, no_account_emitter VARCHAR(10) NOT NULL, no_account_receiver VARCHAR(10) NOT NULL, amount INT NOT NULL, PRIMARY KEY(id))');
@@ -41,13 +43,16 @@ final class Version20250116135734 extends AbstractMigration
         $$ LANGUAGE plpgsql;');
         $this->addSql('DROP TRIGGER IF EXISTS notify_trigger ON messenger_messages;');
         $this->addSql('CREATE TRIGGER notify_trigger AFTER INSERT OR UPDATE ON messenger_messages FOR EACH ROW EXECUTE PROCEDURE notify_messenger_messages();');
+        $this->addSql('ALTER TABLE account_balance_history_record ADD CONSTRAINT FK_4541ECD39B6B5FBA FOREIGN KEY (account_id) REFERENCES account (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');
+        $this->addSql('ALTER TABLE account_balance_history_record DROP CONSTRAINT FK_4541ECD39B6B5FBA');
         $this->addSql('DROP TABLE account');
+        $this->addSql('DROP TABLE account_balance_history_record');
         $this->addSql('DROP TABLE debit');
         $this->addSql('DROP TABLE deposit');
         $this->addSql('DROP TABLE transfer');
