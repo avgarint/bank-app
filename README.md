@@ -37,7 +37,7 @@ DATABASE_URL="postgresql://<username>:<password>@127.0.0.1:5432/<nom_de_la_base_
 	
 4.	Appliquez les migrations pour générer les tables dans la base de données :
 ```
-php bin/console doctrine:migrations:migrate
+php bin/console doctrine:migration:migrate
 ```
 5. Démarrez le serveur
 
