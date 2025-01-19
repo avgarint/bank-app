@@ -51,7 +51,7 @@ Le projet nécessite PostgreSQL pour fonctionner.
 php/bin/console doctrine:database:create
 ```
 
-6.	Créer les migrations  :
+5.	Créer les migrations  :
 ```
 php bin/console make:migration
 ```
@@ -70,17 +70,17 @@ L’application sera accessible à l’adresse par défaut : http://127.0.0.1:80
 
 Fonctionnalités
 
-•	Création de comptes utilisateur.
-•	Connexion sécurisée.
-•	Virements entre utilisateurs.
+- Création de comptes utilisateur.
+- Connexion sécurisée.
+- Virements entre utilisateurs.
 
 
 Auteur
-	**Sami HAMIZI : sami7453**
- 	**Alexandre GUMERY : avgarint**
-  	**Noé LE ROUX : LilStick**
-   	**Ibrahim KARAMANLIAN : Kibraa**
-    	**Hédi BOISSARD : hedi926**
+- **Sami HAMIZI : sami7453**
+- **Alexandre GUMERY : avgarint**
+- **Noé LE ROUX : LilStick**
+- **Ibrahim KARAMANLIAN : Kibraa**
+- **Hédi BOISSARD : hedi926**
 
 Cela fournit un guide clair pour les utilisateurs souhaitant configurer et lancer le projet sur leur machine.
 
