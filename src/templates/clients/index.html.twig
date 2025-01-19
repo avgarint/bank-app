@@ -1,22 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Clients - Bank Admin{% endblock %}
+{% block title %}Clients - Bank Admin
+{% endblock %}
 
 {% block body %}
-    <p class="text-2xl font-bold mb-4">Clients</p>
+	<p class="text-2xl font-bold mb-4">Clients</p>
 
-    <!-- Client list -->
-    <section>
-        {% for client in clients %}
-            <div class="mt-5 p-5 bg-gray-200 rounded-lg shadow">
-                <p class="text-lg font-semibold text-gray-700">
-                    ID: <span class="text-blue-500">{{ client.id }}</span>
-                </p>
-                <p class="text-lg font-semibold text-gray-700">
-                    E-mail: <span class="text-blue-500">{{ client.email }}</span>
-                </p>
-                <a href="{{ path('app_clients_remove', { id: client.id }) }}" class="text-red-500">Supprimer</a>
-            </div>
-        {% endfor %}
-    </section>
+	<!-- Client list -->
+	<section>
+		{% for client in clients %}
+			<a href="{{ path('app_clients_details', { id: client.id }) }}" class="block mt-5 p-5 bg-gray-200 rounded-lg shadow">
+				<p class="text-lg font-semibold text-gray-700">
+					ID:
+					<span class="text-blue-500">{{ client.id }}</span>
+				</p>
+				<p class="text-lg font-semibold text-gray-700">
+					E-mail:
+					<span class="text-blue-500">{{ client.email }}</span>
+				</p>
+			</a>
+			<a href="{{ path('app_clients_remove', { id: client.id }) }}" class="text-red-500">Supprimer</a>
+		{% endfor %}
+	</section>
 {% endblock %}

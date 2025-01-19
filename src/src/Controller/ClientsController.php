@@ -3,13 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Repository\UserRepository;
+use App\Entity\Account;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class ClientsController extends AbstractController
 {
@@ -24,11 +25,19 @@ final class ClientsController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/clients/{id}', name: 'app_clients_details')]
-    public function details(User $user): Response
+    public function details(User $user, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('clients/details.html.twig', ['client' => $user]);
+        // Récupérer les comptes associés à l'utilisateur
+        $accounts = $entityManager->getRepository(Account::class)->findBy(['user' => $user]);
+
+        // Renvoyer la vue avec les informations du client et ses comptes
+        return $this->render('clients/details.html.twig', [
+            'client' => $user,
+            'accounts' => $accounts,
+        ]);
     }
-    
+
+
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/clients/{id}/remove', name: 'app_clients_remove')]
     public function remove(User $user, EntityManagerInterface $entityManager): Response

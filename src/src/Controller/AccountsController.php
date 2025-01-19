@@ -48,7 +48,7 @@ final class AccountsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $accountCount = $entityManager->getRepository(Account::class)->count([]);
+            $accountCount = $entityManager->getRepository(Account::class)->count(['user' => $currentUser]);
 
             if ($accountCount >= 5) {
                 $this->addFlash('error', 'Vous ne pouvez pas créer plus de 5 comptes.');
@@ -98,7 +98,7 @@ final class AccountsController extends AbstractController
         $entityManager->remove($account);
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_accounts');
+        return $this->redirectToRoute('app_clients');
     }
 
     #[Route('/accounts/{id}/transfer', name: 'transfer_create')]
